@@ -1,0 +1,4 @@
+{
+    "app-id": "sound_record_save",
+    "app-description": "Record a sound (wav format) and save it in the data folder of the app"
+}

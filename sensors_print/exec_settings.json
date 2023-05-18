@@ -1,0 +1,4 @@
+{
+    "app-id": "sensors_print",
+    "app-description": "Prints the value of all sensors forever."
+}

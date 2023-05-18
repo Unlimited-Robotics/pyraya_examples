@@ -1,0 +1,4 @@
+{
+    "app-id": "cv_object_detector_custom",
+    "app-description": "Example to run object detector in case developer has custom model"
+}

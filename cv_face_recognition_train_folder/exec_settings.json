@@ -1,0 +1,4 @@
+{
+    "app-id": "cv_face_recognition_train_folder",
+    "app-description": "Example to train faces with folder as an input"
+}

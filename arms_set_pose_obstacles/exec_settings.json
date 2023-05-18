@@ -1,0 +1,4 @@
+{
+    "app-id": "arms_set_pose_obstacles",
+    "app-description": "Execute a pose for a specific arm considering obstacles got by the cameras"
+}

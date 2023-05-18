@@ -1,0 +1,4 @@
+{
+    "app-id": "fleet_update_status",
+    "app-description" : "Updates each 3 seconds the status of the app in the fleet manager"
+}

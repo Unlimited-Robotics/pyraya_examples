@@ -1,0 +1,16 @@
+{
+    "app-id": "leds",
+    "app-name": "leds",
+    "verbose-error-print": true,
+    "simulation": true,
+    "dev-mode": true,
+    "robot-connection": {
+        "robot-id": "",
+        "ip-address": "",
+        "dds-channel": 0
+    },
+    "logging": {
+        "file_enabled": true,
+        "folder": "log"
+    }
+}

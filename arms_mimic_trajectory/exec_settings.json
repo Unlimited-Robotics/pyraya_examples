@@ -1,0 +1,4 @@
+{
+    "app-id": "arms_mimic_trajectory",
+    "app-description": "Execute a trajectory for mirror arms, mimic the calculated trajectory for one of them"
+}

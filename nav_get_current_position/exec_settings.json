@@ -1,0 +1,5 @@
+{
+    "app-id": "nav_get_current_position",
+    "app-description": "Example that get and print the robot coordinates in pixels and meters, and the orientation in radians and degrees."
+
+}

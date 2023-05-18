@@ -1,0 +1,4 @@
+{
+    "app-id": "cameras_listener",
+    "app-description": "Example that visualize a camera in real time, using the corresponding listener"
+}

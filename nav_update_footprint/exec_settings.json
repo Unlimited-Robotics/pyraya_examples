@@ -1,0 +1,4 @@
+{
+    "app-id": "nav_update_footprint",
+    "app-description": "Example that changes the robot footprint to a static value."
+}

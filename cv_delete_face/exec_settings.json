@@ -1,0 +1,4 @@
+{
+    "app-id": "cv_delete_face",
+    "app-description": "Example to delete a face from face recognition model"
+}

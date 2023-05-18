@@ -1,0 +1,2 @@
+CAMERA_REAL_ROBOT = 'nav_top'
+CAMERA_SIMULATION = 'chest'

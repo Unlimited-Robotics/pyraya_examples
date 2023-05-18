@@ -1,0 +1,4 @@
+{
+    "app-id": "arms_set_position_joints",
+    "app-description": "Set the values of joints for a specific arm"
+}

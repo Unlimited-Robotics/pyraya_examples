@@ -1,0 +1,4 @@
+{
+    "app-id": "map_tags",
+    "app-description": "Example that starts the mapping process with the provided map name and saves the resulting map when the application has finished its execution. The 36h10 tag family tags is used in the mapping process with the size indicated in the --tag-size parameter."
+}

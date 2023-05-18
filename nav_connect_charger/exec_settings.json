@@ -1,0 +1,4 @@
+{
+    "app-id": "nav_connect_charger",
+    "app-description": "Example that detects the charger (using two apriltags), navigates to it, and connects by checking lidar."
+}

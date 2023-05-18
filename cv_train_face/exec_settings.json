@@ -1,0 +1,4 @@
+{
+    "app-id": "cv_face_train",
+    "app-description": "Example to train a new face in recognizer model"
+}

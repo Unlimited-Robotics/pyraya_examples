@@ -1,0 +1,4 @@
+{
+    "app-id": "map",
+    "app-description": "Example that starts the mapping process with the supplied map name and saves the map when the applicacion finishes."
+}

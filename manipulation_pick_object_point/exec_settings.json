@@ -1,0 +1,4 @@
+{
+    "app-id": "manipulation_pick_object_point",
+    "app-description": "Example to pick an object setting a x,y,z point as input"
+}

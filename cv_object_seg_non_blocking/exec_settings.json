@@ -1,0 +1,4 @@
+{
+    "app-id": "cv_object_seg_non_blocking",
+    "app-description": "Example to segment objects on blocking mode"
+}
