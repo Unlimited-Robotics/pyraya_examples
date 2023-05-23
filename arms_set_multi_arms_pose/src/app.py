@@ -57,8 +57,8 @@ class RayaApplication(RayaApplicationBase):
                     'like this {"x": 0.38661, "y": 0.25621, "z": 1.18}'
                     ' where xyz are the position '
                     'separate the different poses with a space'),
-                default=['{"x":0.38661,"y":0.25621, "z":1.18}',
-                            '{"x":0.38661,"y":-0.25621,"z":1.18}', ],
+                default=['{"x":0.6,"y":0.3, "z":1.18}',
+                            '{"x":0.6,"y":-0.3,"z":1.18}', ],
             )
         self.orientation = self.get_argument(
                 '-o', '--orientation',
