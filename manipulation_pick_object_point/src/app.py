@@ -9,8 +9,18 @@ class RayaApplication(RayaApplicationBase):
 
     async def setup(self):
         self.manip:ManipulationController = \
-                await self.enable_controller('manipulation')        
-                
+                await self.enable_controller('manipulation')  
+              
+        if self.pick_height > self.object_height:
+            self.log.error('pick height cant be bigger than object height')
+            self.finish_app()
+
+        
+
+
+    async def loop(self):
+
+        self.log.info(f'Pick Object Point started...')
         await self.manip.pick_object_point(point = self.point,
                 object_height=self.object_height, 
                 pick_height=self.pick_height, 
@@ -22,10 +32,6 @@ class RayaApplication(RayaApplicationBase):
                 callback_feedback=self.cb_manipulation_feedback,
                 wait=True
             )
-        self.log.info(f'Pick Object Point started...')
-
-
-    async def loop(self):
         self.finish_app()
 
 
@@ -35,18 +41,17 @@ class RayaApplication(RayaApplicationBase):
 
     def get_arguments(self):
         self.point = self.get_argument(
-                '-p', '--point-to-pick',
+                '-pp', '--point-to-pick',
                 type=float,
                 required=True,
-                nargs='+', 
+                list= True, 
                 help='list of floats with the point'
             )
         self.angles = self.get_argument(
-                '-ag', '--angles',
+                '-g', '--angles',
                 type=int,
                 list=True,
                 default=[-90, 90, 30],
-                nargs='+', 
                 help=(
                         'Angles to check pick in degrees: ' 
                         'initial_angle final_angle steps. eg 0 90 10t'
@@ -60,9 +65,9 @@ class RayaApplication(RayaApplicationBase):
             )
         self.arms = self.get_argument(
                '-a', '--arms',
-               type=list, 
+               type=str, 
                default=[],
-               nargs='+', 
+               list= True, 
                help='list of arms to try to pick'
             )
         self.width = self.get_argument(
@@ -84,9 +89,7 @@ class RayaApplication(RayaApplicationBase):
                 required=True, 
                 help='height user want to pick the object'
             )
-        if self.pick_height > self.object_height:
-            self.log.error('pick height cant be bigger than object height')
-            self.finish_app()
+        
 
 
     def cb_manipulation_feedback(self, feedback_code, feedback_msg):
