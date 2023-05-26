@@ -1,5 +1,5 @@
 {
     "app-id": "ui_all_controllers",
     "app-name": null,
-    "verbose-error-print": false
+    "verbose-error-print": true
 }

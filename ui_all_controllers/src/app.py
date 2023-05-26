@@ -21,27 +21,28 @@ class RayaApplication(RayaApplicationBase):
     async def loop(self):
         # Loop
         try:
-            selection = (await self.ui.display_choice_selector(
+            # Ask for the controller to test
+            response = await self.ui.display_choice_selector(
                     **UI_CONTROLLER_SELECTOR
-                ))['selected_option']['id']
-            
+                )
+            if response['action'] == 'back_pressed':
+                self.finish_app()
+            selection = response['selected_option']['id']
             if selection in self.handlers:
                 await self.handlers[selection].main_display()
             else:
                 self.finish_app()
         except RayaException as e:
-            error_description = (
-                    f'{type(e).__name__}: {e}'
-                )
-            # error_description = (
-            #         f'Exception Name: {type(e).__name__}: \n '
-            #         f'Exception message: {e}'
-            #     )
-            await self.ui.display_action_screen(
-                    **UI_SCREEN_ERROR,
-                    subtitle=error_description,
+            # If a Ra-Ya exception is raised, show it as a UI modal.
+            # TODO: Add multiline in content when it gets implemented
+            # to separate file and exception text.
+            error_file, error_lineno = e.get_raya_file()
+            await self.ui.display_modal(
+                    **UI_RAYA_EXCEPTION,
+                    subtitle=type(e).__name__,
+                    content=f'{error_file}[{error_lineno}]: {str(e)}',
                 )
 
 
     async def finish(self):
-        await self.ui.display_screen(**UI_SCREEN_END)
+        await self.ui.display_screen(**UI_END)
