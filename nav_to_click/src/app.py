@@ -133,7 +133,7 @@ class RayaApplication(RayaApplicationBase):
         self.log.info(f'Navigation Finish: {error} {error_msg}')
 
 
-    def cb_nav_feedback(self,  error, error_msg, distance_to_goal, speed):
+    def cb_nav_feedback(self, error, error_msg, distance_to_goal, speed):
         self.log.info((
                 'Navigation Feedback: \n'
                 f'error = {error} \n error_msg={error_msg} \n' 

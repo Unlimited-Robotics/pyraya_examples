@@ -1,35 +1,13 @@
-import argparse
-
 from raya.controllers.motion_controller import MotionController
 from raya.application_base import RayaApplicationBase
 from raya.enumerations import ANG_UNIT
+
 
 class RayaApplication(RayaApplicationBase):
 
     async def setup(self):
         self.motion_flag = False
         self.motion:MotionController = await self.enable_controller('motion')
-
-    
-    def cb_motion_feedback(self, 
-                feedback_code, 
-                feedback_msg, 
-                time_left, 
-                nearby_obstacle
-            ):
-        self.log.info(f'Motion feedback: {time_left}')
-
-
-    def cb_motion_finished(self, 
-                error_code, 
-                error_msg, 
-                interrupted, 
-                obstacle_type
-            ):
-        self.log.info('Motion finished callback called!')
-        if error_code != 0:
-            self.log.info(f'Motion command error {error_code}: {error_msg}')
-        self.motion_flag = False
 
 
     async def loop(self):
@@ -117,3 +95,24 @@ class RayaApplication(RayaApplicationBase):
         except AttributeError:
             pass
         self.log.info('Finish app called')
+
+
+    def cb_motion_feedback(self, 
+                feedback_code, 
+                feedback_msg, 
+                time_left, 
+                nearby_obstacle
+            ):
+        self.log.info(f'Motion feedback: {time_left}')
+
+
+    def cb_motion_finished(self, 
+                error_code, 
+                error_msg, 
+                interrupted, 
+                obstacle_type
+            ):
+        self.log.info('Motion finished callback called!')
+        if error_code != 0:
+            self.log.info(f'Motion command error {error_code}: {error_msg}')
+        self.motion_flag = False
