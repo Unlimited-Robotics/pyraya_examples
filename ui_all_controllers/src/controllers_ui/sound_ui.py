@@ -1,5 +1,4 @@
 import re
-import asyncio
 
 from raya.controllers.ui_controller import UIController
 from raya.controllers.sound_controller import SoundController
@@ -7,7 +6,8 @@ from raya.tools.filesystem import delete_dat_file
 from raya.exceptions import *
 
 from src.tools.ui import ui_countdown, ui_list_of_files
-from src.static.ui import *
+from src.static.ui.general import *
+from src.static.ui.sound import *
 from src.static.fs import *
 
 

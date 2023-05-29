@@ -2,8 +2,9 @@ from raya.application_base import RayaApplicationBase
 from raya.controllers.ui_controller import UIController
 from raya.exceptions import RayaException
 
-from src.static.ui import *
+from src.static.ui.general import *
 from src.controllers_ui.sound_ui import SoundUI
+from src.controllers_ui.arms_ui import ArmsUI
 
 class RayaApplication(RayaApplicationBase):
 
@@ -12,7 +13,8 @@ class RayaApplication(RayaApplicationBase):
         self.ui:UIController = await self.enable_controller('ui')
         # UI Controllers Handlers
         self.handlers = {
-            1: SoundUI(self)
+            1: SoundUI(self),
+            2: ArmsUI(self),
         }
         for handler in self.handlers.values():
             await handler.init()

@@ -1,58 +1,12 @@
+from raya.enumerations import INPUT_TYPE
+
 from src.static.fs import *
-from raya.enumerations import INPUT_TYPE, MODAL_TYPE
-
-#GENERAL
-
-DEFAULT_MAX_ITEMS_PER_PAGE = 4
-
-UI_CONTROLLER_SELECTOR = {
-        'title': 'Which controller would you like to test?', 
-        'back_button_text': 'EXIT',
-        'max_items_shown': DEFAULT_MAX_ITEMS_PER_PAGE,
-        'data': [
-                {'id': 1, 'name': '🔊 Sound 🔊'}, 
-                {'id': 2, 'name': '🦾 Arms 🦾'}, 
-                {'id': 3, 'name': '💃 Motion 💃'},
-            ]
-    }
-
-UI_END = {
-        'title':'Thanks!', 
-        'subtitle':'Don\'t forget to subscribe and like 😉',
-        'show_loader':False,
-        'show_back_button': False, 
-    }
-
-UI_RAYA_EXCEPTION = {
-        'title':'Ra-Ya Exception', 
-        'submit_text':'OK',
-        'cancel_text':'',
-        'modal_type':MODAL_TYPE.ERROR,
-        'custom_style':{
-            'subtitle': {
-                'font-family':'monospace',
-            },
-            'content': {
-                'text-align':'left',
-                'font-family':'monospace',
-            },
-        },
-    }
-
-# TODO: When the UI title bug if fixed, remove the subtitle field
-UI_ERROR_MUST_BE_NUMBER = {
-        'title':'Value Error',
-        'subtitle':'Value Error',
-        'content':'Entered value must be numeric', 
-        'submit_text':'OK',
-        'cancel_text':'',
-        'modal_type':MODAL_TYPE.ERROR,
-    }
+from src.static.ui.general import DEFAULT_MAX_ITEMS_PER_PAGE
 
 # SOUND
 
 UI_SOUND_MAIN_SELECTOR = {
-        'title': 'You would like to:', 
+        'title': '🔊🔊 You would like to:',
         'show_back_button': True, 
         'max_items_shown': DEFAULT_MAX_ITEMS_PER_PAGE,
         'data': [
@@ -78,7 +32,8 @@ UI_SOUND_PLAY_CUSTOM_SOUND = {
 
 UI_SOUND_NOT_CUSTOM_SOUNDS = {
         'title':'No Custom Sounds Available 🔇', 
-        'subtitle':f'You can add .wav files to the folder {FS_SOUND_CUSTOM_FOLDER}',
+        'subtitle':
+            f'You can add .wav files to the folder {FS_SOUND_CUSTOM_FOLDER}',
         'show_back_button': True, 
     }
 
