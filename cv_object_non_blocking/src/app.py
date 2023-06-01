@@ -39,13 +39,9 @@ class RayaApplication(RayaApplicationBase):
             else:
                 self.log.error('Camera name not available')
                 self.finish_app()
-                return
         else:
             # If a camera name wasn't set it works with camera in zero position
             self.working_camera = self.available_cameras[0]
-
-        # Enable camera
-        await self.cameras.enable_color_camera(self.working_camera)
 
         # Pretty print
         self.log.info(json.dumps(self.available_models, indent=2))
@@ -60,15 +56,11 @@ class RayaApplication(RayaApplicationBase):
         self.log.info('Model enabled')
         self.log.info(f'Objects labels: {self.detector.get_objects_names()}')
 
-        # Create listeners
-        self.cameras.create_color_frame_listener(
-                camera_name=self.working_camera,
-                callback=self.callback_color_frame
-            )
-        self.detector.set_detections_callback(
+        self.detector.set_img_detections_callback(
                 callback=self.callback_all_objects,
                 as_dict=True,
                 call_without_detections=True,
+                cameras_controller=self.cameras
             )
         await self.detector.find_objects(
                 objects=self.callback_object, 
@@ -133,43 +125,7 @@ class RayaApplication(RayaApplicationBase):
         self.log.info(f'!!!!')
 
 
-    def callback_all_objects(self, detections, timestamp):
-        self.last_detections = list(detections.values())
-        self.last_detections_timestamp = timestamp
-        self.match_image_detections()
-
-
-    def callback_color_frame(self, image,  timestamp):
-        self.last_color_frames.append( (timestamp, image) )
-        self.match_image_detections()
-
-
-    def match_image_detections(self):
-        if self.last_detections_timestamp is None or \
-                not self.last_color_frames:
-            return
-        image = None
-        for color_frame in self.last_color_frames:
-            if color_frame[0] == self.last_detections_timestamp:
-                image = color_frame[1].copy()
+    def callback_all_objects(self, detections, image):
         if image is None:
             return
-        detection_names = []
-        for detection in self.last_detections:
-            image = cv2.rectangle(
-                    img = image, 
-                    pt1 = (detection['x_min'], detection['y_min']), 
-                    pt2 = (detection['x_max'], detection['y_max']), 
-                    color = (0, 255, 0), 
-                    thickness = 2)
-            image = cv2.putText(
-                    img = image, 
-                    text = detection['object_name'], 
-                    org = (detection['x_min'], detection['y_min'] - 5), 
-                    fontFace = cv2.FONT_HERSHEY_SIMPLEX,
-			        fontScale = 0.5, 
-                    color = (0, 0, 255), 
-                    thickness = 2)
-            detection_names.append(detection['object_name'])
         show_image(img=image, title='Video from Gary\'s camera')
-        

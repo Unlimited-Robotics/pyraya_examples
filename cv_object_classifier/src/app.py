@@ -2,6 +2,7 @@
 import json
 import cv2
 import collections
+import numpy as np
 
 # Raya Imports
 from raya.application_base import RayaApplicationBase
@@ -116,7 +117,7 @@ class RayaApplication(RayaApplicationBase):
             return
         image = cv2.putText(
                 img = image, 
-                text = f'Table: {self.classifications[0]["object_name"]}', 
+                text = f'Table: {self.classifications[0]["classification_name"]}', 
                 org = (50,50), 
                 fontFace = cv2.FONT_HERSHEY_SIMPLEX,
                 fontScale = 0.5, 
