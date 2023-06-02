@@ -11,7 +11,7 @@ from src.static.ui.sound import *
 from src.static.fs import *
 
 
-class SoundUI():
+class SoundHandler():
 
     def __init__(self, app):
         self.app = app
@@ -22,14 +22,17 @@ class SoundUI():
         self.sound:SoundController = await self.app.enable_controller('sound')
 
     
-    async def main_display(self):
+    async def main_display(self, default_selection=-1):
         while True:
-            response = await self.ui.display_choice_selector(
-                    **UI_SOUND_MAIN_SELECTOR
-                )
-            if response['action'] == 'back_pressed':
-                return
-            selection = response['selected_option']['id']
+            if default_selection == -1:
+                response = await self.ui.display_choice_selector(
+                        **UI_SOUND_MAIN_SELECTOR
+                    )
+                if response['action'] == 'back_pressed':
+                    return
+                selection = response['selected_option']['id']
+            else:
+                selection = default_selection
             if selection==1:
                 await self.play_predefined_sound()
             if selection==2:

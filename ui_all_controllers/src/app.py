@@ -3,8 +3,8 @@ from raya.controllers.ui_controller import UIController
 from raya.exceptions import RayaException
 
 from src.static.ui.general import *
-from src.controllers_ui.sound_ui import SoundUI
-from src.controllers_ui.arms_ui import ArmsUI
+from src.handlers.sound_handler import SoundHandler
+from src.handlers.arms_handler import ArmsHandler
 
 class RayaApplication(RayaApplicationBase):
 
@@ -13,8 +13,8 @@ class RayaApplication(RayaApplicationBase):
         self.ui:UIController = await self.enable_controller('ui')
         # UI Controllers Handlers
         self.handlers = {
-            1: SoundUI(self),
-            2: ArmsUI(self),
+            1: SoundHandler(self),
+            2: ArmsHandler(self),
         }
         for handler in self.handlers.values():
             await handler.init()
@@ -23,15 +23,18 @@ class RayaApplication(RayaApplicationBase):
     async def loop(self):
         # Loop
         try:
-            # Ask for the controller to test
-            response = await self.ui.display_choice_selector(
-                    **UI_CONTROLLER_SELECTOR
-                )
-            if response['action'] == 'back_pressed':
-                self.finish_app()
-            selection = response['selected_option']['id']
+            if self.selection == -1:
+                # Ask for the controller to test
+                response = await self.ui.display_choice_selector(
+                        **UI_CONTROLLER_SELECTOR
+                    )
+                if response['action'] == 'back_pressed':
+                    self.finish_app()
+                selection = response['selected_option']['id']
+            else:
+                selection = self.selection
             if selection in self.handlers:
-                await self.handlers[selection].main_display()
+                await self.handlers[selection].main_display(self.sub_selection)
             else:
                 self.finish_app()
         except RayaException as e:
@@ -48,3 +51,18 @@ class RayaApplication(RayaApplicationBase):
 
     async def finish(self):
         await self.ui.display_screen(**UI_END)
+
+
+    def get_arguments(self):
+        self.selection = self.get_argument(
+                '-s1', '--selection1',
+                type=int,
+                required=False,
+                default=-1,
+            )
+        self.sub_selection = self.get_argument(
+                '-s2', '--selection2',
+                type=int,
+                required=False,
+                default=-1,
+            )
