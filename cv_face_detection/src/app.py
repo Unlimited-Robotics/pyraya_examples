@@ -21,18 +21,13 @@ class RayaApplication(RayaApplicationBase):
         self.log.info('Available cameras:')
         self.log.info(f'{self.available_cameras}')
 
-        # If a camera name was set
-        if self.camera != None:
-            cams = set(self.available_cameras)
-            if self.camera in cams:
-                self.working_camera = self.camera
-            else:
-                self.log.info('Camera name not available')
-                self.finish_app()
-                return
+        cams = set(self.available_cameras)
+        if self.camera in cams:
+            self.working_camera = self.camera
         else:
-            # If a camera name wasn't set it works with camera in zero position
-            self.working_camera = self.available_cameras[0]
+            self.log.info('Camera name not available')
+            self.finish_app()
+            return
 
         # Enable camera
         await self.cameras.enable_color_camera(self.working_camera)
@@ -96,3 +91,4 @@ class RayaApplication(RayaApplicationBase):
         if detections:
             image = draw_on_image(image=image, last_predictions=detections)
         show_image(img=image, title='Video from Gary\'s camera')
+    
