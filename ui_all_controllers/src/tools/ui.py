@@ -1,5 +1,6 @@
 import asyncio
 import math
+import copy
 
 from raya.controllers.ui_controller import UIController
 from raya.tools.filesystem import list_files_in_folder, create_dat_folder
@@ -73,3 +74,18 @@ async def ui_list_of_files(
                 response['selected_option']['id'],
                 response['selected_option']['name']
             )
+
+
+def replace_key(template, **kargs):
+    ui_return = copy.deepcopy(template)
+    if 'title' in ui_return:
+        for key, value in kargs.items():
+            ui_return['title'] = ui_return['title'].replace(
+                    f'{{{key}}}', value
+                )
+    if 'subtitle' in ui_return:
+        for key, value in kargs.items():
+            ui_return['subtitle'] = ui_return['subtitle'].replace(
+                    f'{{{key}}}', value
+                )
+    return ui_return
