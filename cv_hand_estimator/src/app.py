@@ -1,15 +1,11 @@
 # System Imports
 import json
-import cv2
-import collections
-import numpy as np
 
 # Raya Imports
 from raya.application_base import RayaApplicationBase
 from raya.controllers.cameras_controller import CamerasController
-from raya.controllers.cv_controller import CVController
-                                                   
-from raya.tools.image import show_image, draw_on_image, match_image_predictions
+from raya.controllers.cv_controller import CVController                                   
+from raya.tools.image import show_image, draw_on_image
 
 
 class RayaApplication(RayaApplicationBase):
@@ -17,9 +13,6 @@ class RayaApplication(RayaApplicationBase):
     async def setup(self):
         self.log.info('Ra-Ya Py - Computer Vision hand estimation Example')
         self.i = 0
-        self.last_estimations = None
-        self.last_estimations_timestamp = None
-        self.last_color_frames = collections.deque(maxlen=10)
 
         # Cameras
         self.cameras: CamerasController = \
@@ -61,14 +54,11 @@ class RayaApplication(RayaApplicationBase):
         self.log.info('Model enabled')
 
         # Create listener
-        self.cameras.create_color_frame_listener(
-                camera_name=self.working_camera,
-                callback=self.callback_color_frame
-            )
-        self.estimator.set_estimations_callback(
+        self.estimator.set_img_estimations_callback(
                 callback=self.callback_all_hands,
                 as_dict=True,
                 call_without_estimations=True,
+                cameras_controller=self.cameras
             )
 
 
@@ -101,31 +91,13 @@ class RayaApplication(RayaApplicationBase):
             )
 
 
-    def callback_all_hands(self, estimations, timestamp):
-        self.last_estimations = list(estimations.values())
-        self.last_estimations_timestamp = timestamp
-        self.match_estimations()
-
-
-    def callback_color_frame(self, image, timestamp):
-        self.last_color_frames.append( (timestamp, image) )
-        self.match_estimations()
-
-
-    def match_estimations(self):
-        image = match_image_predictions(
-                self.last_estimations_timestamp, 
-                self.last_color_frames
-            )
-        if image is None or self.last_estimations is None:
-            return
-        if self.last_estimations == []:
-            show_image(img=image, title='Video from Gary\'s camera')
-        else:
-            # Draw results on the input image
-            img, view_3d = draw_on_image(
+    def callback_all_hands(self, estimations, image):
+        image_3d = None
+        if estimations:
+            image, image_3d = draw_on_image(
                     image=image, 
-                    last_predictions=self.last_estimations
+                    last_predictions=estimations
                 )
-            show_image(img=img, title='Video from Gary\'s camera')
-            show_image(img=view_3d, title='view_3d from Gary\'s camera')
+        show_image(img=image, title='Video from Gary\'s camera')
+        if image_3d is not None:
+            show_image(img=image_3d, title='Video 3d from Gary\'s camera')

@@ -1,23 +1,17 @@
 # System Imports
 import json
-import cv2
-import collections
 
 # Raya Imports
 from raya.application_base import RayaApplicationBase
 from raya.controllers.cameras_controller import CamerasController
 from raya.controllers.cv_controller import CVController
-from raya.tools.image import show_image
+from raya.tools.image import show_image, draw_on_image
 
 
 class RayaApplication(RayaApplicationBase):
 
     async def setup(self):
         self.log.info('Ra-Ya Py - Computer Vision Object Detection Example')
-
-        self.last_detections = None
-        self.last_detections_timestamp = None
-        self.last_color_frames = collections.deque(maxlen=60)
 
         # Cameras
         self.cameras: CamerasController = \
@@ -42,6 +36,7 @@ class RayaApplication(RayaApplicationBase):
         else:
             # If a camera name wasn't set it works with camera in zero position
             self.working_camera = self.available_cameras[0]
+        await self.cameras.enable_color_camera(self.working_camera)
 
         # Pretty print
         self.log.info(json.dumps(self.available_models, indent=2))
@@ -126,6 +121,6 @@ class RayaApplication(RayaApplicationBase):
 
 
     def callback_all_objects(self, detections, image):
-        if image is None:
-            return
+        if detections:
+            image = draw_on_image(image=image, last_predictions=detections)
         show_image(img=image, title='Video from Gary\'s camera')
