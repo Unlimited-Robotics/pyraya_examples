@@ -1,0 +1,4 @@
+{
+    "app-id": "map_continue",
+    "app-description": "Example that continue mapping the provided map and allow to save or ignore the resulting map when the application has finished its execution. The 36h10 tag family tags is used in the mapping process with the size indicated in the --tag-size parameter."
+}
