@@ -1,0 +1,27 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "pyRa-Ya Debug",
+            "type": "python",
+            "request": "attach",
+            "port": 5678,
+            "host": "localhost",
+            "pathMappings": [
+                {
+                    "localRoot": "${workspaceFolder}",
+                    "remoteRoot": "."
+                }
+            ]
+        },
+        {
+            "name": "Run status_example",
+            "type": "RayaSDK",
+            "request": "launch",
+            "args": [
+                ""
+            ],
+            "typeCommand": "launchApp"
+        }
+    ]
+}
