@@ -53,28 +53,28 @@ class RayaApplication(RayaApplicationBase):
 
     async def taskAppsStatus(self):
         while True:
-            apps_status = await self.status._get_apps_status(wait=True)
+            apps_status = await self.status._get_apps_status()
             self.log.info(f'apps status: {apps_status}')
             await self.sleep(TIME_TASK_APPS_STATUS)
             
             
     async def taskRayaStatus(self):
         while True:
-            raya_status = await self.status.get_raya_status(wait=True)
+            raya_status = await self.status.get_raya_status()
             self.log.info(f'raya status: {raya_status}')
             await self.sleep(TIME_TASK_RAYA_STATUS)
 
 
     async def taskAvailableArmsStatus(self):
         while True:
-            arms_status = await self.status.get_available_arms(wait=True)
+            arms_status = await self.status.get_available_arms()
             self.log.info(f'available arms status: {arms_status}')
             await self.sleep(TIME_TASK_ARMS_STATUS)
     
     
     async def taskBatteryStatus(self):
         while True:
-            battery_status = await self.status.get_battery_status(wait=True)
+            battery_status = await self.status.get_battery_status()
             self.log.info(f'battery status: {battery_status}')
             await self.sleep(TIME_TASK_BATTERY_STATUS)
             
@@ -84,7 +84,6 @@ class RayaApplication(RayaApplicationBase):
             localization_status = await self.status.get_localization_status(
                     ang_unit=ANG_UNIT.DEG,
                     pos_unit=POS_UNIT.METERS,
-                    wait=True
                 )
             self.log.info(f'localization status: {localization_status}')
             await self.sleep(TIME_TASK_LOCALIZATION_STATUS)
@@ -92,8 +91,6 @@ class RayaApplication(RayaApplicationBase):
     
     async def taskManipulationStatus(self):
         while True:
-            manipulation_status = await self.status.get_manipulation_status(
-                    wait=True
-                )
+            manipulation_status = await self.status.get_manipulation_status()
             self.log.info(f'manipulation status: {manipulation_status}')
             await self.sleep(TIME_TASK_MANIPULATION_STATUS)
