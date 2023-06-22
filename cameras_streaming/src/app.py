@@ -15,22 +15,24 @@ class RayaApplication(RayaApplicationBase):
         self.cameras: CamerasController = \
                 await self.enable_controller('cameras')
         port, protocol, path = \
-                await self.cameras.enable_streaming(camera_name=self.camera_name)
+                await self.cameras.enable_streaming(
+                    camera_name=self.camera_name)
         self.log.info(f'Enabling camera \'{self.camera_name}\'')
         self.log.info(f'  - Port: {port}')
         self.log.info(f'  - Potocol: {protocol}')
         self.log.info(f'  - Path: {path}')
         self.log.info('')
-        self.log.info(f'The route to locally access the stream is:')
-        self.log.info(f'  {protocol}://localhost:{port}{path}')
+        self.log.info(f'Check env file to change server, port and more!')
         self.log.info('')
-        self.log.info(f'The route to remotely access the stream is:')
-        self.log.info(f'  {protocol}://<ROBOT_IP>:{port}{path}')
+        self.log.info(f'If you have ffmpeg installed in your local machine, ')
+        self.log.info(f'you can create a server to send the camera stream')
+        self.log.info(f'  ffplay \'{protocol}://:{port}{path}&'
+                      'mode=listener&maxbw=12399073&fc=102400'
+                      '&rcvbuf=48234496\'')
+        self.log.info(f'Remember create the server before running the example')
         self.log.info('')
-        self.log.info(f'If you have ffmpeg installed in your machine, you can')
-        self.log.info(f'connect to the streaming with one ot these commands')
-        self.log.info(f'  ffplay {protocol}://localhost:{port}{path}')
-        self.log.info(f'  ffplay {protocol}://<ROBOT_IP>:{port}{path}')
+        self.log.info(f'When you use ffplay as server, you only host one '
+                      'stream at time, the port are same on the others!')
         self.log.info('')
         self.log.info(f'You can install ffmpeg in your ubuntu machine with:')
         self.log.info(f'  sudo apt-get install ffmpeg')
