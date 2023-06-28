@@ -109,13 +109,6 @@ class RayaApplication(RayaApplicationBase):
                 required=True,
                 help='name of camera to use'
             )
-        self.detect_tags = self.get_argument(
-                '-dt', '--detect_tags',
-                default=['tag36h11.43','tag36h11.1'],
-                type=list,
-                nargs='+', 
-                help='dict of list with the tags to detect in not blockin mode'
-            )
         self.finish_tags = self.get_argument(
                 '-f', '--finish_tags',
                 default=['tag36h11.0'],
@@ -137,6 +130,13 @@ class RayaApplication(RayaApplicationBase):
                 type=float, 
                 default=10.0,
                 help='model running duration'
+            )
+        self.detect_tags = self.get_argument(
+                '-dt', '--detect_tags',
+                default=['tag36h11.43','tag36h11.1'],
+                type=list,
+                nargs='+', 
+                help='dict of list with the tags to detect in not blockin mode'
             )
         self.detect_tags = self.create_dict_arg(self.detect_tags)
         self.finish_tags = self.create_dict_arg(self.finish_tags)
