@@ -20,7 +20,7 @@ class RayaApplication(RayaApplicationBase):
         self.log.info(f'Enabling camera \'{self.camera_name}\'')
         self.log.info(f'  - Port: {port}')
         self.log.info(f'  - Potocol: {protocol}')
-        self.log.info(f'  - Path: {path}')
+        self.log.info(f'  - Path: publish/{path}')
         self.log.info('')
         self.log.info(f'Check env file to change server, port and more!')
         self.log.info('')
@@ -31,8 +31,12 @@ class RayaApplication(RayaApplicationBase):
                       '&rcvbuf=48234496\'')
         self.log.info(f'Remember create the server before running the example')
         self.log.info('')
-        self.log.info(f'When you use ffplay as server, you only host one '
-                      'stream at time, the port are same on the others!')
+        self.log.info(f'If you have ffmpeg installed in your machine, you can')
+        self.log.info(f'connect to the streaming with one ot these commands')
+        self.log.info(f'  ffplay {protocol}://localhost:{port}?streamid='
+                      f'publish/{path}&mode=listener')
+        self.log.info(f'  ffplay {protocol}://<ROBOT_IP>:{port}?streamid='
+                      f'publish/{path}&mode=listener')
         self.log.info('')
         self.log.info(f'You can install ffmpeg in your ubuntu machine with:')
         self.log.info(f'  sudo apt-get install ffmpeg')
