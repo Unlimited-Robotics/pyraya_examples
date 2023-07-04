@@ -14,6 +14,7 @@ from src.FSMs.task1.helpers import Helpers
 class Actions(BaseActions):
 
     def __init__(self, app: RayaApplication, helpers: Helpers):
+        super().__init__()
         self.app = app
         self.helpers = helpers
 

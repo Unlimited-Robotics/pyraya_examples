@@ -18,41 +18,52 @@ class RayaApplication(RayaApplicationBase):
         # Variables
         self.main_camera = ''
         self.main_temp_sensor = ''
+
         # Controllers
         self.nav:NavigationController = \
                 await self.enable_controller('navigation')
-        self.leds:LedsController  = await self.enable_controller('leds')
-        self.sound:SoundController = await self.enable_controller('sound')
-        self.ui:UIController = await self.enable_controller('ui')
+        self.leds:LedsController  = \
+                await self.enable_controller('leds')
+        self.sound:SoundController = \
+                await self.enable_controller('sound')
+        self.ui:UIController = \
+                await self.enable_controller('ui')
         self.cameras:CamerasController = \
                 await self.enable_controller('cameras')
         self.sensors:SensorsController = \
                 await self.enable_controller('sensors')
-        self.arms:ArmsController = await self.enable_controller('arms')
+        self.arms:ArmsController = \
+                await self.enable_controller('arms')
+        
         # Initializations
         self.simulation = self.is_simulation()
         await self.init_cameras()
         await self.init_sensors()
         await self.init_arms()
+        
         # FSMs
         self.fsm_task1 = FSM(app=self, name='task1', log_transitions=True)
+        self.fsm_task1.run_in_background()
 
 
     async def loop(self):
-        # tick() returns False if the FSM is finished or aborted
-        if not await self.fsm_task1.tick():
+        # Do other non blocking stuff...
+        self.sleep(1.0)
+        # Check if the FSM has finished
+        if self.fsm_task1.has_finished():
             self.finish_app()
 
 
     async def finish(self):
-        # fsm_error[0]: error code, fsm_error[1]: error message
-        fsm_error = self.fsm_task1.get_error()
-        if fsm_error[0] == 0:
+        # Has the FSM finished without error?
+        if self.fsm_task1.was_successfull():
             self.log.info('App correctly finished')
         else:
+            # fsm_error[0]: error code, fsm_error[1]: error message
+            fsm_error_code, fsm_error_msg = self.fsm_task1.get_error()
             self.log.error(
-                    f'App finished with error [{fsm_error[0]}]: {fsm_error[1]}'
-                )
+                f'App finished with error [{fsm_error_code}]: {fsm_error_msg}'
+            )
             
 
     def is_simulation(self):

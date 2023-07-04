@@ -18,10 +18,11 @@ class Helpers:
 
 
     async def nav_feedback_async(self, code, msg, distance_to_goal, speed):
-        if code == 9: # Waiting obstacle to move
+        if code == 9: # Waiting for obstacle to move
             await self.app.sound.play_sound(name='error')
 
 
+    # TODO: Temporal trick while we implement the async callbacks
     def nav_feedback(self, code, msg, distance_to_goal, speed):
         self.app.create_task(
                 name='nav_feedback', 
