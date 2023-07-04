@@ -73,7 +73,7 @@ class RayaApplication(RayaApplicationBase):
     def get_arguments(self):
         self.model = self.get_argument(
                 '-m', '--ransac', 
-                default='yolov5s_coco',
+                default='ransac',
                 help='segmentator model name'
             )
         self.camera = self.get_argument(

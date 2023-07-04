@@ -135,7 +135,7 @@ class RayaApplication(RayaApplicationBase):
         self.duration = self.get_argument(
                 '-d',  '--duration', 
                 type=float, 
-                default=10.0,
+                default=5000.0,
                 help='model running duration'
             )
         self.detect_tags = self.create_dict_arg(self.detect_tags)
