@@ -1,0 +1,4 @@
+{
+    "app-id": "nav_where_i_am",
+    "app-description": "Example that loads a map, wait for robot localization and shows the robot position in case it localize"
+}
