@@ -43,12 +43,12 @@ class RayaApplication(RayaApplicationBase):
         
         # FSMs
         self.fsm_task1 = FSM(app=self, name='task1', log_transitions=True)
-        self.fsm_task1.run_in_background()
+        await self.fsm_task1.run_in_background()
 
 
     async def loop(self):
         # Do other non blocking stuff...
-        self.sleep(1.0)
+        await self.sleep(1.0)
         # Check if the FSM has finished
         if self.fsm_task1.has_finished():
             self.finish_app()
@@ -56,7 +56,7 @@ class RayaApplication(RayaApplicationBase):
 
     async def finish(self):
         # Has the FSM finished without error?
-        if self.fsm_task1.was_successfull():
+        if self.fsm_task1.was_successful():
             self.log.info('App correctly finished')
         else:
             # fsm_error[0]: error code, fsm_error[1]: error message

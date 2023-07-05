@@ -60,7 +60,7 @@ UI_SCREEN_NAV_TO_LAUNDRY = {
 
 UI_SCREEN_LOOK_FOR_PANTS = {
         'title':'Wait... 🤔', 
-        'subtitle':'I don\'n use pants! 🤯',
+        'subtitle':'I don\'t use pants! 🤯',
     }
 
 UI_SCREEN_COME_BACK_FROM_LAUNDRY = {

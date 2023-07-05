@@ -33,7 +33,7 @@ class Actions(BaseActions):
     async def enter_NAV_TO_HOME(self):
         await self.app.nav.navigate_to_position(
                 **NAV_POINT_HOME,
-                callback_feedback=self.helpers.nav_feedback,
+                callback_feedback_async=self.helpers.nav_feedback_async,
             )
 
 
@@ -59,7 +59,7 @@ class Actions(BaseActions):
         await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_KITCHEN)
         await self.app.nav.navigate_to_position(
                 **NAV_POINT_KITCHEN,
-                callback_feedback=self.helpers.nav_feedback,
+                callback_feedback_async=self.helpers.nav_feedback_async,
             )
 
 
