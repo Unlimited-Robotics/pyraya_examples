@@ -49,8 +49,8 @@ class RayaApplication(RayaApplicationBase):
         # Check obstacle
         if self.lidar.check_obstacle(
                     lower_angle=0, 
-                    upper_angle=45,
-                    upper_distance=2.0, 
+                    upper_angle=10,
+                    upper_distance=1.0, 
                     ang_unit=ANG_UNIT.DEG
                 ):
             self.obstacle_counter += 1
@@ -98,6 +98,7 @@ class RayaApplication(RayaApplicationBase):
             )
         # Plot
         self.ax1.clear()
-        self.ax1.scatter(x=-np.array(theta)-1.578, y=raw_data, s=2)
-        self.ax1.set_ylim(0.0, 10.0)
+        self.ax1.set_theta_zero_location("N")
+        self.ax1.scatter(x=-np.array(theta), y=raw_data, s=2)
+        self.ax1.set_ylim(0.0, 5.0)
         plt.pause(0.001) # Needed for real time plotting

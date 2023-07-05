@@ -21,9 +21,9 @@ class RayaApplication(RayaApplicationBase):
         self.lidar.create_obstacle_listener(
                 listener_name='obstacle',
                 callback=self.callback_obstacle,
-                lower_angle=260,
-                upper_angle=280,
-                upper_distance=2.0, 
+                lower_angle=0,
+                upper_angle=10,
+                upper_distance=1.0, 
                 ang_unit=ANG_UNIT.DEG,
             )
 
