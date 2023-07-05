@@ -1,0 +1,5 @@
+{
+    "app-id": "fsm_multiple",
+    "app-description": "Example of how to use the FSM library",
+    "verbose-error-print": true
+}
