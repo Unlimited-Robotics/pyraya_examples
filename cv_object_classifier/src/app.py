@@ -93,7 +93,7 @@ class RayaApplication(RayaApplicationBase):
             )
         
 
-    def callback_all_objects(self, detections, image):
-        if detections:
-            image = draw_on_image(image=image, last_predictions=detections)
+    def callback_all_objects(self, classificatios, image):
+        if classificatios:
+            image = draw_on_image(image=image, last_predictions=classificatios)
         show_image(img=image, title='Video from Gary\'s camera')

@@ -93,7 +93,7 @@ class RayaApplication(RayaApplicationBase):
                 type=list,
                 help=(
                         'list of strings with the objects to detect'
-                        'in not blockin mode'
+                        'in not blocking mode'
                     )
             )
         self.duration = self.get_argument(
