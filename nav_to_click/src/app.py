@@ -8,17 +8,17 @@ from raya.controllers.navigation_controller import NavigationController
 
 
 GARY_FOOTPRINT = [
-                [-0.25,  0.35],
-                [ 0.25,  0.35],
-                [ 0.25, -0.35],
-                [-0.25, -0.35]
-            ]
+        [-0.25,  0.35],
+        [ 0.25,  0.35],
+        [ 0.25, -0.35],
+        [-0.25, -0.35]
+    ]
 GARY_AND_TRAY_FOOTPTINT = [
-                        [-0.28,  0.37],
-                        [ 0.60,  0.37],
-                        [ 0.60, -0.37],
-                        [-0.28, -0.37]
-                    ]
+        [-0.28,  0.37],
+        [ 0.60,  0.37],
+        [ 0.60, -0.37],
+        [-0.28, -0.37]
+    ]
 
 
 class RayaApplication(RayaApplicationBase):
@@ -27,14 +27,14 @@ class RayaApplication(RayaApplicationBase):
         self.flag = False
         self.counter = 0
         self.navigation: NavigationController = \
-                                await self.enable_controller('navigation')
+                await self.enable_controller('navigation')
         await self.navigation.update_robot_footprint(points=GARY_FOOTPRINT)
         self.list_of_maps = await self.navigation.get_list_of_maps()
         self.log.info(f'List of maps: {self.list_of_maps}')
         self.log.info((
-                    f'Setting map: {self.map_name}. '
-                    'Waiting for the robot to get localized'
-                ))
+                f'Setting map: {self.map_name}. '
+                'Waiting for the robot to get localized'
+            ))
         robot_localized = await self.navigation.set_map(
                 map_name=self.map_name, 
                 wait_localization=True, 
@@ -47,8 +47,8 @@ class RayaApplication(RayaApplicationBase):
             self.finish_app()
         self.log.info(f'Using map \'{self.map_name}\'')
         self.map_image, self.map_info = await self.navigation.get_map(
-                                                        map_name=self.map_name
-                                                    )
+                map_name=self.map_name
+            )
         try:
             await self.navigation.enable_speed_zones()
         except:
@@ -164,12 +164,12 @@ class RayaApplication(RayaApplicationBase):
             )
         if self.click_down:
             cv2.arrowedLine(
-                        img=img, 
-                        pt1=self.point_down, 
-                        pt2=self.point_mouse, 
-                        color=(0,150,0), 
-                        thickness=3
-                    )
+                    img=img, 
+                    pt1=self.point_down, 
+                    pt2=self.point_mouse, 
+                    color=(0,150,0), 
+                    thickness=3
+                )
         return img
 
 

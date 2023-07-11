@@ -6,10 +6,10 @@ from raya.controllers.cameras_controller import CamerasController
 from raya.controllers.cv_controller import CVController
 
 
-CAMERA = 'head_front'
+CAMERA = 'nav_top'
 DELAY = 0.3
 PREDICTION_TIMEOUT = 5.0
-MODEL_NAME = 'ur_empty_table'
+MODEL_NAME = 'yunet_face'
 
 
 class RayaApplication(RayaApplicationBase):
