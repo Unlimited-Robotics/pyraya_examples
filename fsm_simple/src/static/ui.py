@@ -75,6 +75,12 @@ UI_SCREEN_END = {
         'show_loader':False,
     }
 
+UI_SCREEN_INTERRUPTED = {
+        'title':'Bye!', 
+        'subtitle':'The application was interrupted 😢',
+        'show_loader':False,
+    }
+
 UI_SCREEN_FAILED = {
         'title':'Something went wrong 💢', 
         'show_loader':False,
