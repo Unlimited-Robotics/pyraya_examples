@@ -1,7 +1,7 @@
 import numpy as np
 
 from raya.application_base import RayaApplicationBase
-from raya.enumerations import ANG_UNIT, MANAGE_ACTIONS
+from raya.enumerations import ANGLE_UNIT, ARMS_MANAGE_ACTIONS
 from raya.controllers.arms_controller import ArmsController
 
 class RayaApplication(RayaApplicationBase):
@@ -17,19 +17,19 @@ class RayaApplication(RayaApplicationBase):
             if not self.arm_name in self.arms.get_list_of_arms():
                 self.print_list_arms()
                 raise ValueError(f'the arm name {self.arm_name} is invalid')
-            self.action=MANAGE_ACTIONS(self.action)
+            self.action=ARMS_MANAGE_ACTIONS(self.action)
             self.joint_values = np.fromstring(
                     self.joint_values, sep=",").tolist()
             if (self.joint_values == '' and 
-                (self.action == MANAGE_ACTIONS.CREATE or
-                    self.action == MANAGE_ACTIONS.EDIT )):
+                (self.action == ARMS_MANAGE_ACTIONS.CREATE or
+                    self.action == ARMS_MANAGE_ACTIONS.EDIT )):
                 self.list_joints_values()
                 raise ValueError(
                     f'DEFINE THE JOINTS VALUES ARRAY FOR THE PREDEFINED POSE(-j)'
                 )
-            units = ANG_UNIT.DEG
+            units = ANGLE_UNIT.DEGREES
             if self.rad_deg:
-                units = ANG_UNIT.RAD
+                units = ANGLE_UNIT.RADIANS
             
             joint_values=await self.arms.manage_predefined_pose(
                 arm=self.arm_name,
@@ -37,7 +37,7 @@ class RayaApplication(RayaApplicationBase):
                 position=self.joint_values,
                 action=self.action,
                 units=units)
-            if self.action==MANAGE_ACTIONS.GET:
+            if self.action==ARMS_MANAGE_ACTIONS.GET:
                 self.log.info(f'values predefined pose {self.predefined_pose}'
                               f' are : {joint_values}')
         self.finish_app()
@@ -112,9 +112,9 @@ class RayaApplication(RayaApplicationBase):
             f'List of joints of the arm: {self.arm_name}'
         )
         self.log.info(f'idx name\t\t\tlower limit\tupper_limit')
-        units = ANG_UNIT.DEG
+        units = ANGLE_UNIT.DEGREES
         if self.rad_deg:
-            units = ANG_UNIT.RAD
+            units = ANGLE_UNIT.RADIANS
         limits = self.arms.get_limits_of_joints(self.arm_name, units)
         name_joints = self.arms.get_state_of_arm(self.arm_name)["name"]
         for c, joint_name in enumerate(name_joints):

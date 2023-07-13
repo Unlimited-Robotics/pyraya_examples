@@ -2,7 +2,7 @@ import json
 
 from raya.application_base import RayaApplicationBase
 from raya.controllers.arms_controller import ArmsController
-from raya.enumerations import ANG_UNIT
+from raya.enumerations import ANGLE_UNIT
 
 
 class RayaApplication(RayaApplicationBase):
@@ -79,9 +79,9 @@ class RayaApplication(RayaApplicationBase):
         for key in self.pose:
             self.log.info(f"{key}\t{self.pose[key]}")
 
-        units = ANG_UNIT.DEG
+        units = ANGLE_UNIT.DEGREES
         if self.rad_deg:
-            units = ANG_UNIT.RAD
+            units = ANGLE_UNIT.RADIANS
 
         distance, fraction, \
             final_position, start_position=await self.arms.is_pose_valid(

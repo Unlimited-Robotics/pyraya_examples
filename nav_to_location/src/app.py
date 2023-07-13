@@ -1,6 +1,6 @@
 from raya.exceptions import RayaNavNotNavigating
 from raya.application_base import RayaApplicationBase
-from raya.controllers.navigation_controller import POS_UNIT, ANG_UNIT
+from raya.enumerations import POSITION_UNIT, ANGLE_UNIT
 from raya.controllers.navigation_controller import NavigationController
 
 
@@ -26,7 +26,7 @@ class RayaApplication(RayaApplicationBase):
         self.location = await self.nav.get_location(
                 location_name=self.location_name,
                 map_name=self.map_name, 
-                pos_unit=POS_UNIT.PIXEL
+                pos_unit=POSITION_UNIT.PIXELS
             )
         goal_x, goal_y, goal_yaw = self.location[0], self.location[1], 0.0
         self.log.warn(f'New goal received {goal_x, goal_y, goal_yaw}')

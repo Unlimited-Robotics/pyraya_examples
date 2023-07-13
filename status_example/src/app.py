@@ -1,6 +1,6 @@
 from raya.application_base import RayaApplicationBase
 from raya.controllers.status_controller import StatusController
-from raya.enumerations import ANG_UNIT, POS_UNIT
+from raya.enumerations import ANGLE_UNIT, POSITION_UNIT
 
 TIME_TASK_APPS_STATUS = 1
 TIME_TASK_RAYA_STATUS = 2
@@ -82,8 +82,8 @@ class RayaApplication(RayaApplicationBase):
     async def taskLocalizationStatus(self):
         while True:
             localization_status = await self.status.get_localization_status(
-                    ang_unit=ANG_UNIT.DEG,
-                    pos_unit=POS_UNIT.METERS,
+                    ang_unit=ANGLE_UNIT.DEGREES,
+                    pos_unit=POSITION_UNIT.METERS,
                 )
             self.log.info(f'localization status: {localization_status}')
             await self.sleep(TIME_TASK_LOCALIZATION_STATUS)

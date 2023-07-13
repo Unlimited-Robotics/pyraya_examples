@@ -5,7 +5,7 @@ import numpy as np
 
 from raya.application_base import RayaApplicationBase
 from raya.controllers.lidar_controller import LidarController
-from raya.controllers.lidar_controller import ANG_UNIT
+from raya.enumerations import ANGLE_UNIT
 
 
 SPINNING_VELOCITIES = {
@@ -24,7 +24,7 @@ class RayaApplication(RayaApplicationBase):
         self.lidar:LidarController = await self.enable_controller('lidar')
 
         self.log.info('Laser info:')
-        self.lidar_info = self.lidar.get_laser_info(ang_unit = ANG_UNIT.RAD)
+        self.lidar_info = self.lidar.get_laser_info(ang_unit = ANGLE_UNIT.RADIANS)
         self.log.info(json.dumps(self.lidar_info, indent=2))
 
         fig = plt.figure()
@@ -51,7 +51,7 @@ class RayaApplication(RayaApplicationBase):
                     lower_angle=0, 
                     upper_angle=10,
                     upper_distance=1.0, 
-                    ang_unit=ANG_UNIT.DEG
+                    ang_unit=ANGLE_UNIT.DEGREES
                 ):
             self.obstacle_counter += 1
             self.log.info(f'Obstacle {self.obstacle_counter}')

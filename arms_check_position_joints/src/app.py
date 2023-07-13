@@ -2,7 +2,7 @@ import numpy as np
 
 from raya.application_base import RayaApplicationBase
 from raya.controllers.arms_controller import ArmsController
-from raya.enumerations import ANG_UNIT
+from raya.enumerations import ANGLE_UNIT
 
 
 class RayaApplication(RayaApplicationBase):
@@ -76,9 +76,9 @@ class RayaApplication(RayaApplicationBase):
             f'List of joints of the arm: {self.arm_name}'
         )
         self.log.info(f'\t idx name\t\t\tlower limit\tupper_limit')
-        units = ANG_UNIT.DEG
+        units = ANGLE_UNIT.DEGREES
         if self.rad_deg:
-            units = ANG_UNIT.RAD
+            units = ANGLE_UNIT.RADIANS
         limits = self.arms.get_limits_of_joints(self.arm_name, units)
         name_joints = self.arms.get_state_of_arm(self.arm_name)['name']
         for c, joint_name in enumerate(name_joints):
@@ -105,9 +105,9 @@ class RayaApplication(RayaApplicationBase):
         self.log.info('\t\t name of joint\t\t\tvalue')
         for joint, name in zip(joints, names):
             self.log.info(f"{name} \t\t {joint}")
-        units = ANG_UNIT.DEG
+        units = ANGLE_UNIT.DEGREES
         if self.rad_deg == True:
-            units = ANG_UNIT.RAD
+            units = ANGLE_UNIT.RADIANS
         await self.arms.are_joints_position_valid(
             arm=self.arm_name,
             name_joints=names,

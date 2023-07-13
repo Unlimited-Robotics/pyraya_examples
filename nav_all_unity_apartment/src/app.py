@@ -2,7 +2,7 @@ from raya.application_base import RayaApplicationBase
 from raya.exceptions import RayaUnableToComputePath, RayaNavLocationNotFound
 from raya.exceptions import RayaNavMappingDisabled, RayaNavLocationAlreadyExist
 from raya.controllers.navigation_controller import NavigationController
-from raya.controllers.navigation_controller import POS_UNIT, ANG_UNIT
+from raya.enumerations import POSITION_UNIT, ANGLE_UNIT
 
 
 class RayaApplication(RayaApplicationBase):
@@ -38,8 +38,8 @@ class RayaApplication(RayaApplicationBase):
                     y=0.5, 
                     angle=1.0,
                     location_name='test002', 
-                    pos_unit=POS_UNIT.METERS, 
-                    ang_unit=ANG_UNIT.RAD, 
+                    pos_unit=POSITION_UNIT.METERS, 
+                    ang_unit=ANGLE_UNIT.RADIANS, 
                     map_name='unity_apartment'
                 )
             self.log.info(f'Location saved')
@@ -60,7 +60,7 @@ class RayaApplication(RayaApplicationBase):
         self.location = await self.navigation.get_location(
                 location_name='kitchen', 
                 map_name='unity_apartment',
-                pos_unit=POS_UNIT.PIXEL
+                pos_unit=POSITION_UNIT.PIXELS
             )
         self.log.info(f'kitchen info= {self.location}')
 
@@ -95,8 +95,8 @@ class RayaApplication(RayaApplicationBase):
         self.log.info(f'Robot is on kitchen = {on_kitchen}')
 
         robot_position = await self.navigation.get_position(
-                pos_unit=POS_UNIT.PIXEL, 
-                ang_unit=ANG_UNIT.DEG
+                pos_unit=POSITION_UNIT.PIXELS, 
+                ang_unit=ANGLE_UNIT.DEGREES
             )
         self.log.info(f'Robot position = {robot_position}')
         self.log.info('Navigating to kitchen')
@@ -128,8 +128,8 @@ class RayaApplication(RayaApplicationBase):
                 x=0.0, 
                 y=1.0, 
                 angle=90.0, 
-                pos_unit=POS_UNIT.METERS, 
-                ang_unit=ANG_UNIT.RAD,
+                pos_unit=POSITION_UNIT.METERS, 
+                ang_unit=ANGLE_UNIT.RADIANS,
                 callback_feedback=self.cb_nav_feedback,
                 callback_finish=self.cb_nav_finish,
                 wait=True,
@@ -138,7 +138,7 @@ class RayaApplication(RayaApplicationBase):
         await self.navigation.go_to_angle( 
                 angle_target=180, 
                 angular_velocity=1.0, 
-                ang_unit=ANG_UNIT.DEG,
+                ang_unit=ANGLE_UNIT.DEGREES,
                 callback_feedback=self.cb_go_to_angle_feedback,
                 callback_finish=self.cb_go_to_angle_finish,
                 wait=True,
@@ -158,7 +158,7 @@ class RayaApplication(RayaApplicationBase):
                 y=-2.96, 
                 min_radius=0.4,
                 max_radius=0.8,
-                pos_unit=POS_UNIT.METERS,
+                pos_unit=POSITION_UNIT.METERS,
                 callback_feedback=self.cb_nav_feedback,
                 callback_finish=self.cb_nav_finish,
                 wait=True,

@@ -1,6 +1,6 @@
 from raya.controllers.motion_controller import MotionController
 from raya.application_base import RayaApplicationBase
-from raya.enumerations import ANG_UNIT
+from raya.enumerations import ANGLE_UNIT
 
 
 class RayaApplication(RayaApplicationBase):
@@ -16,7 +16,7 @@ class RayaApplication(RayaApplicationBase):
         await self.motion.rotate(
                 angle=90.0, 
                 angular_speed=20.0, 
-                ang_unit=ANG_UNIT.DEG, 
+                ang_unit=ANGLE_UNIT.DEGREES, 
                 wait=True
             )
         self.log.info('Motion command finished'); 
@@ -29,7 +29,7 @@ class RayaApplication(RayaApplicationBase):
         await self.motion.rotate(
                 angle=-1.5708, 
                 angular_speed=0.349, 
-                ang_unit=ANG_UNIT.RAD,
+                ang_unit=ANGLE_UNIT.RADIANS,
                 callback_finish=self.cb_motion_finished
             )
         while self.motion_flag: 
@@ -72,7 +72,7 @@ class RayaApplication(RayaApplicationBase):
                 y_velocity=0.0, 
                 angular_velocity=10.0, 
                 duration=10.0,
-                ang_unit=ANG_UNIT.DEG, 
+                ang_unit=ANGLE_UNIT.DEGREES, 
                 wait=False, 
                 callback_finish=self.cb_motion_finished,
                 callback_feedback=self.cb_motion_feedback

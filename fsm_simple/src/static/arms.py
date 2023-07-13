@@ -1,4 +1,4 @@
-from raya.enumerations import ANG_UNIT
+from raya.enumerations import ANGLE_UNIT
 
 ARMS_WAVE_TIMES = 2
 ARMS_WAVE_ARM = 'right_arm'
@@ -27,5 +27,5 @@ ARMS_WAVE_POINTS = [
 ARMS_WAVE_SEQUENCE = {
         'arm':ARMS_WAVE_ARM,
         'joint_values':ARMS_WAVE_TIMES*ARMS_WAVE_POINTS,
-        'units':ANG_UNIT.RAD,
+        'units':ANGLE_UNIT.RADIANS,
     }

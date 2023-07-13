@@ -1,4 +1,4 @@
-from raya.enumerations import INPUT_TYPE
+from raya.enumerations import UI_INPUT_TYPE
 
 from src.static.fs import *
 from src.static.ui.general import DEFAULT_MAX_ITEMS_PER_PAGE
@@ -50,13 +50,13 @@ UI_SOUND_RECORD_TIME_SELECTOR = {
 
 UI_SOUND_RECORD_TIME_INPUT = {
         'title':'Time to record 🎙⏲️',
-        'input_type': INPUT_TYPE.NUMERIC,
+        'input_type': UI_INPUT_TYPE.NUMERIC,
     }
 
 UI_SOUND_RECORD_NAME_INPUT = {
         'title':'Name of the recording file to save 💾',
         'subtitle': 'The extension .wav will be added if not provided.',
-        'input_type': INPUT_TYPE.TEXT,
+        'input_type': UI_INPUT_TYPE.TEXT,
     }
 
 UI_SOUND_RECORDING = {

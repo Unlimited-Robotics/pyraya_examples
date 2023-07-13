@@ -1,6 +1,6 @@
 import json
 
-from raya.enumerations import ANG_UNIT
+from raya.enumerations import ANGLE_UNIT
 from raya.exceptions import *
 from raya.controllers.arms_controller import ArmsController
 from raya.application_base import RayaApplicationBase
@@ -107,9 +107,9 @@ class RayaApplication(RayaApplicationBase):
             self.log.info(f'{arm}\t{pose["position"]}')
             self.log.info(f'       \t\t{pose["orientation"]}')
             self.log.info('-------------------------------------------------')
-        units = ANG_UNIT.DEG
+        units = ANGLE_UNIT.DEGREES
         if self.rad_deg:
-            units = ANG_UNIT.RAD
+            units = ANGLE_UNIT.RADIANS
 
         await self.arms.set_multi_arms_pose(
             group=self.group,

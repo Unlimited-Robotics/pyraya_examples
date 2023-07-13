@@ -2,7 +2,7 @@ import cv2
 import math
 
 from raya.application_base import RayaApplicationBase
-from raya.controllers.navigation_controller import POS_UNIT, ANG_UNIT
+from raya.enumerations import POSITION_UNIT, ANGLE_UNIT
 from raya.exceptions import RayaNavNotNavigating, RayaNavInvalidGoal
 from raya.controllers.navigation_controller import NavigationController
 
@@ -70,8 +70,8 @@ class RayaApplication(RayaApplicationBase):
 
     async def loop(self):
         robot_position = await self.navigation.get_position(
-                pos_unit=POS_UNIT.PIXEL, 
-                ang_unit=ANG_UNIT.RAD
+                pos_unit=POSITION_UNIT.PIXELS, 
+                ang_unit=ANGLE_UNIT.RADIANS
             )
         img = self.draw(robot_position)
         cv2.imshow('map', img)
@@ -93,11 +93,11 @@ class RayaApplication(RayaApplicationBase):
                 self.log.warn(f'New goal received {self.new_goal}')
                 try:
                     await self.navigation.navigate_to_position( 
-                        # x=0.0, y=1.0, angle=90.0, pos_unit = POS_UNIT.METERS, 
+                        # x=0.0, y=1.0, angle=90.0, pos_unit = POSITION_UNIT.METERS, 
                         x=float(self.new_goal[0]), 
                         y=float(self.new_goal[1]), 
-                        angle=self.new_goal[2], pos_unit = POS_UNIT.PIXEL, 
-                        ang_unit = ANG_UNIT.RAD,
+                        angle=self.new_goal[2], pos_unit = POSITION_UNIT.PIXELS, 
+                        ang_unit = ANGLE_UNIT.RADIANS,
                         callback_feedback = self.cb_nav_feedback,
                         callback_finish = self.cb_nav_finish,
                         # wait=False,

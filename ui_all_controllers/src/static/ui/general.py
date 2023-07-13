@@ -1,5 +1,5 @@
 from src.static.fs import *
-from raya.enumerations import MODAL_TYPE
+from raya.enumerations import UI_MODAL_TYPE
 
 DEFAULT_MAX_ITEMS_PER_PAGE = 4
 
@@ -27,7 +27,7 @@ UI_RAYA_EXCEPTION = {
         'title':'Ra-Ya Exception', 
         'submit_text':'OK',
         'cancel_text':'',
-        'modal_type':MODAL_TYPE.ERROR,
+        'modal_type':UI_MODAL_TYPE.ERROR,
         'custom_style':{
             'subtitle': {
                 'font-family':'monospace',
@@ -46,5 +46,5 @@ UI_ERROR_MUST_BE_NUMBER = {
         'content':'Entered value must be numeric', 
         'submit_text':'OK',
         'cancel_text':'',
-        'modal_type':MODAL_TYPE.ERROR,
+        'modal_type':UI_MODAL_TYPE.ERROR,
     }
