@@ -40,7 +40,7 @@ class RayaApplication(RayaApplicationBase):
                 wait_localization=True, 
                 timeout=3.0,
                 callback_feedback=self.cb_set_map_feedback,
-                callback_finish=None
+                callback_finish=self.cb_set_map_finish
             )
         if not robot_localized:
             self.log.error(f'Robot couldn\'t localize itself')
@@ -127,6 +127,12 @@ class RayaApplication(RayaApplicationBase):
 
     def cb_set_map_feedback(self, feedback_code, feedback_msg):
         self.log.info(f'set map feedback: {feedback_code} {feedback_msg}')
+
+
+    def cb_set_map_finish(self, error, error_msg):
+        if error != 0:
+            self.log.error(f'set map finish: {error} {error_msg}')
+            self.finish_app()
 
 
     def cb_nav_finish(self, error, error_msg):
