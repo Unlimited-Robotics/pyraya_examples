@@ -16,12 +16,17 @@ class RayaApplication(RayaApplicationBase):
         await self.nlp.stt_set_provider(
                 'google_stt', 
                 credentials=CREDENTIALS_FILE,
-                is_credentials_file=True)
+                is_credentials_file=True
+            )
 
 
     async def loop(self):
-        print('AAA')
-        text = await self.nlp.stt_transcribe_from_file('res:test.wav')
+        text = await self.nlp.stt_transcribe_from_mic(
+                microphone='head', 
+                voice_detector='silero_v4',
+                language='en-US',
+                timeout=5.0
+            )
         self.log.info(f'Result: {text}')
         self.finish_app()
 
