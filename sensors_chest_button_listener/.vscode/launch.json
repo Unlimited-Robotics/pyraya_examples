@@ -1,0 +1,28 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "pyRa-Ya: debug application",
+            "type": "python",
+            "request": "attach",
+            "port": 5678,
+            "host": "localhost",
+            "pathMappings": [
+                {
+                    "localRoot": "${workspaceFolder}",
+                    "remoteRoot": "."
+                }
+            ]
+        },
+        {
+            "name": "Run sensors_listener",
+            "type": "RayaSDK",
+            "request": "launch",
+            "debug": false,
+            "args": [
+                ""
+            ],
+            "typeCommand": "launchApp"
+        }
+    ]
+}
