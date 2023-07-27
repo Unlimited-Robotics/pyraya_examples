@@ -1,6 +1,6 @@
 from raya.application_base import RayaApplicationBase
 from raya.controllers.navigation_controller import NavigationController
-from raya.controllers.navigation_controller import POS_UNIT, ANG_UNIT
+from raya.enumerations import POSITION_UNIT, ANGLE_UNIT
 from raya.exceptions import RayaNavLocationNotFound
 from raya.exceptions import RayaNavLocationAlreadyExist
 
@@ -51,7 +51,7 @@ class RayaApplication(RayaApplicationBase):
         self.location = await self.navigation.get_location(
                 location_name='kitchen', 
                 map_name='unity_apartment',
-                pos_unit=POS_UNIT.PIXEL
+                pos_unit=POSITION_UNIT.PIXELS
             )
         self.log.info(f'kitchen info= {self.location}')
 
@@ -82,8 +82,8 @@ class RayaApplication(RayaApplicationBase):
                     y=0.5, 
                     angle=1.0,
                     location_name='test001', 
-                    pos_unit=POS_UNIT.METERS, 
-                    ang_unit=ANG_UNIT.RAD, 
+                    pos_unit=POSITION_UNIT.METERS, 
+                    ang_unit=ANGLE_UNIT.RADIANS, 
                     map_name='unity_apartment'
                 )
             self.log.info(f'Location saved')
@@ -93,7 +93,7 @@ class RayaApplication(RayaApplicationBase):
             await self.navigation.save_zone( 
                     zone_name='test001', 
                     points=[[0, 1],[1, 1],[1, 0],[0, 0]], 
-                    pos_unit = POS_UNIT.METERS,
+                    pos_unit = POSITION_UNIT.METERS,
                     map_name = 'unity_apartment',
                     wait=True
                 )

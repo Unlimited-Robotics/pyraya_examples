@@ -14,7 +14,7 @@ from raya.controllers.navigation_controller import NavigationController
 from raya.controllers.sensors_controller import SensorsController
 from raya.controllers.lidar_controller import LidarController
 from raya.controllers.fleet_controller import FleetController
-from raya.controllers.navigation_controller import POS_UNIT, ANG_UNIT
+from raya.enumerations import POSITION_UNIT, ANGLE_UNIT
 from raya.handlers.cv.tags_detector_handler import TagsDetectorHandler
 from raya.exceptions import RayaNavNotNavigating, RayaNavInvalidGoal
 
@@ -109,8 +109,8 @@ class RayaApplication(RayaApplicationBase):
                         x=self.x_initial,
                         y=self.y_initial,
                         angle=self.angle_initial,
-                        pos_unit = POS_UNIT.METERS, 
-                        ang_unit = ANG_UNIT.RAD,
+                        pos_unit = POSITION_UNIT.METERS, 
+                        ang_unit = ANGLE_UNIT.RADIANS,
                         wait=False,
                         callback_finish = self.cb_nav_finish,
                     )
@@ -155,8 +155,8 @@ class RayaApplication(RayaApplicationBase):
                                 x=tag_goal_coordinates[0], 
                                 y=tag_goal_coordinates[1], 
                                 angle=tag_goal_coordinates[2], 
-                                pos_unit=POS_UNIT.METERS, 
-                                ang_unit=ANG_UNIT.RAD,
+                                pos_unit=POSITION_UNIT.METERS, 
+                                ang_unit=ANGLE_UNIT.RADIANS,
                                 wait=False,
                                 callback_finish=self.cb_nav_finish,
                             )
@@ -191,7 +191,7 @@ class RayaApplication(RayaApplicationBase):
                             y_velocity=0.0,
                             angular_velocity=0.0, 
                             duration=8.0, 
-                            ang_unit=ANG_UNIT.RAD,
+                            ang_unit=ANGLE_UNIT.RADIANS,
                             wait=False,
                         )
                     self.log.info(f'Moving checking lidar')
@@ -215,7 +215,7 @@ class RayaApplication(RayaApplicationBase):
                         y_velocity=0.0,
                         angular_velocity=0.0, 
                         duration=5.2, 
-                        ang_unit=ANG_UNIT.RAD,
+                        ang_unit=ANGLE_UNIT.RADIANS,
                         wait=False,
                     )
                 self.log.info(f'Connecting to charger')

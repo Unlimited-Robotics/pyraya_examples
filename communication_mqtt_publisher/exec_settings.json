@@ -1,4 +1,4 @@
 {
-    "app-id": "communication_client",
+    "app-id": "communication_mqtt_publisher",
     "app-description": "Example of the communication controller"
 }

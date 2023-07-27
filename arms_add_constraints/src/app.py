@@ -1,7 +1,7 @@
 from raya.application_base import RayaApplicationBase
 from raya.controllers.arms_controller import ArmsController
 from raya.exceptions import *
-from raya.enumerations import TYPE_SHAPES
+from raya.enumerations import SHAPE_TYPE
 
 
 class RayaApplication(RayaApplicationBase):
@@ -37,7 +37,7 @@ class RayaApplication(RayaApplicationBase):
             'position_constraints': [
                 {
                     'constraint_region': {
-                        'types': [TYPE_SHAPES.BOX],
+                        'types': [SHAPE_TYPE.BOX],
                         'shapes_poses': [{'position': {'x': 0,
                                                        'y': -1.02,
                                                        'z': 0.5},

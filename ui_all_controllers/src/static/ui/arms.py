@@ -1,4 +1,4 @@
-from raya.enumerations import INPUT_TYPE
+from raya.enumerations import UI_INPUT_TYPE
 
 from src.static.fs import *
 from src.static.ui.general import DEFAULT_MAX_ITEMS_PER_PAGE

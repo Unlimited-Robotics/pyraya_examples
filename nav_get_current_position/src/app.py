@@ -25,12 +25,12 @@ class RayaApplication(RayaApplicationBase):
         self.log.info(f'Localized. Using map \'{self.map_name}\'')
 
         localization_meters = await self.navigation.get_position(
-                pos_unit=POS_UNIT.METERS,
-                ang_unit = ANG_UNIT.RAD
+                pos_unit=POSITION_UNIT.METERS,
+                ang_unit = ANGLE_UNIT.RADIANS
             )
         localization_pixels = await self.navigation.get_position(
-                pos_unit=POS_UNIT.PIXEL,
-                ang_unit = ANG_UNIT.DEG
+                pos_unit=POSITION_UNIT.PIXELS,
+                ang_unit = ANGLE_UNIT.DEGREES
             )
         self.log.info((
                 'Robot coordinates (meters)= '

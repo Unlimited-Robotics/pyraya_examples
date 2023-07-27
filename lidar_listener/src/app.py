@@ -1,7 +1,7 @@
 from raya.application_base import RayaApplicationBase
 from raya.controllers.lidar_controller import LidarController
 from raya.controllers.motion_controller import MotionController
-from raya.enumerations import ANG_UNIT
+from raya.enumerations import ANGLE_UNIT
 
 
 SPINNING_VELOCITIES = {
@@ -24,7 +24,7 @@ class RayaApplication(RayaApplicationBase):
                 lower_angle=0,
                 upper_angle=10,
                 upper_distance=1.0, 
-                ang_unit=ANG_UNIT.DEG,
+                ang_unit=ANGLE_UNIT.DEGREES,
             )
 
         # If spin parameter was set

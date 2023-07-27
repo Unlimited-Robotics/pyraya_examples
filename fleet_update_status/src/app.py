@@ -13,37 +13,37 @@ class RayaApplication(RayaApplicationBase):
     async def loop(self):
         await self.fleet.update_app_status(
                 task_id=self.task_id,
-                status=UPDATE_STATUS.INFO,
+                status=FLEET_UPDATE_STATUS.INFO,
                 message='checking fleet info'
             )
         await self.sleep(3.0)
         await self.fleet.update_app_status(
                 task_id=self.task_id,
-                status=UPDATE_STATUS.WARNING,
+                status=FLEET_UPDATE_STATUS.WARNING,
                 message='checking fleet Warning'
             )
         await self.sleep(3.0)
         await self.fleet.update_app_status(
                 task_id=self.task_id,
-                status=UPDATE_STATUS.ERROR,
+                status=FLEET_UPDATE_STATUS.ERROR,
                 message='checking fleet ERROR'
             )
         await self.sleep(3.0)
         await self.fleet.update_app_status(
                 task_id=self.task_id,
-                status=UPDATE_STATUS.SUCCESS,
+                status=FLEET_UPDATE_STATUS.SUCCESS,
                 message='checking fleet succsess'
             )
         await self.sleep(3.0)
         await self.fleet.finish_task(
                 task_id=self.task_id,
-                result=FINISH_STATUS.SUCCESS,
+                result=FLEET_FINISH_STATUS.SUCCESS,
                 message='checking fleet finish succsess'
             )
         await self.sleep(3.0)
         await self.fleet.finish_task(
                 task_id=self.task_id,
-                result=FINISH_STATUS.FAILED,
+                result=FLEET_FINISH_STATUS.FAILED,
                 message='checking fleet finish FAILED'
             )
         await self.sleep(3.0)

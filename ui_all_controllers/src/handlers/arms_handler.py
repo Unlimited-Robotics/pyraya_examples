@@ -2,7 +2,7 @@ import numpy as np
 
 from raya.controllers.ui_controller import UIController
 from raya.controllers.arms_controller import ArmsController
-from raya.enumerations import ANG_UNIT
+from raya.enumerations import ANGLE_UNIT
 from raya.exceptions import RayaArmsOutOfLimits, RayaArmsExternalException
 
 from src.static.ui.arms import *
@@ -123,7 +123,7 @@ class ArmsHandler():
                     current_value = await self.arms.get_current_joint_position(
                             arm=arm,
                             joint=joint,
-                            units=ANG_UNIT.DEG,
+                            units=ANGLE_UNIT.DEGREES,
                         )
                     if self.arms.is_rotational_joint(arm=arm, joint=joint):
                         increment = JOINT_INCREMENTS_ROTATIONAL[id]
@@ -135,7 +135,7 @@ class ArmsHandler():
                                 arm=arm,
                                 joint=joint,
                                 position=new_value,
-                                units=ANG_UNIT.DEG,
+                                units=ANGLE_UNIT.DEGREES,
                                 wait=True,
                             )
                         limit_reached = False

@@ -104,7 +104,7 @@ class RayaApplication(RayaApplicationBase):
         self.log.warn(f'Hello from finish()')
         await self.fleet.finish_task(
                 task_id=self.task_id, 
-                status=FINISH_STATUS.SUCCESS
+                status=FLEET_FINISH_STATUS.SUCCESS
             )
 
 

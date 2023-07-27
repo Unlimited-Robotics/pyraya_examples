@@ -2,7 +2,7 @@ import math
 import copy
 import numpy as np
 
-from raya.enumerations import ANG_UNIT, TYPE_SHAPES
+from raya.enumerations import ANGLE_UNIT, SHAPE_TYPE
 from shapely.geometry import Polygon
 import matplotlib.pyplot as plt
 from raya.controllers.base_controller import BaseController

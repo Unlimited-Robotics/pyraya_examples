@@ -10,6 +10,7 @@ from raya.tools.fsm import FSM
 
 from src.static.cameras import *
 from src.static.sensors import *
+from src.static.ui import *
 
 
 class RayaApplication(RayaApplicationBase):
@@ -55,15 +56,20 @@ class RayaApplication(RayaApplicationBase):
 
 
     async def finish(self):
-        # Has the FSM finished without error?
-        if self.fsm_task1.was_successful():
-            self.log.info('App correctly finished')
+        if not self.fsm_task1.has_finished():
+            # The app was externally interrupted (maybe Ctrl+C)
+            await self.ui.display_screen(**UI_SCREEN_INTERRUPTED)
         else:
-            # fsm_error[0]: error code, fsm_error[1]: error message
-            fsm_error_code, fsm_error_msg = self.fsm_task1.get_error()
-            self.log.error(
-                f'App finished with error [{fsm_error_code}]: {fsm_error_msg}'
-            )
+            # Has the FSM finished without error?
+            if self.fsm_task1.was_successful():
+                self.log.info('App correctly finished')
+            else:
+                # fsm_error[0]: error code, fsm_error[1]: error message
+                fsm_error_code, fsm_error_msg = self.fsm_task1.get_error()
+                self.log.error(
+                    f'App finished with error [{fsm_error_code}]: '
+                    f'{fsm_error_msg}'
+                )
             
 
     def is_simulation(self):

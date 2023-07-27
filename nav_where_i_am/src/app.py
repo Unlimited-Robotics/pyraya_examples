@@ -2,7 +2,7 @@ import cv2
 import math
 
 from raya.application_base import RayaApplicationBase
-from raya.controllers.navigation_controller import POS_UNIT, ANG_UNIT
+from raya.enumerations import POSITION_UNIT, ANGLE_UNIT
 from raya.exceptions import RayaNavNotNavigating, RayaNavInvalidGoal
 from raya.controllers.navigation_controller import NavigationController
 
@@ -33,12 +33,12 @@ class RayaApplication(RayaApplicationBase):
             self.finish_app()
         self.log.info(f'Using map \'{self.map_name}\'')
         robot_pix_rad = await self.navigation.get_position(
-                pos_unit=POS_UNIT.PIXEL, 
-                ang_unit=ANG_UNIT.RAD
+                pos_unit=POSITION_UNIT.PIXELS, 
+                ang_unit=ANGLE_UNIT.RADIANS
             )
         robot_met_deg = await self.navigation.get_position(
-                pos_unit=POS_UNIT.METERS, 
-                ang_unit=ANG_UNIT.DEG
+                pos_unit=POSITION_UNIT.METERS, 
+                ang_unit=ANGLE_UNIT.DEGREES
             )
         self.log.info((
                 f'Robot location (pixels): {robot_pix_rad[0]} {robot_pix_rad[1]}'

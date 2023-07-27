@@ -1,5 +1,5 @@
 from raya.application_base import RayaApplicationBase
-from raya.enumerations import MODAL_TYPE, THEME_TYPE
+from raya.enumerations import UI_MODAL_TYPE, UI_THEME_TYPE
 from raya.controllers.ui_controller import UIController
 
 
@@ -15,7 +15,7 @@ class RayaApplication(RayaApplicationBase):
                 subtitle='Good morning',
                 languages=['he', 'en', 'ru'],
                 chosen_language='ru',
-                theme=THEME_TYPE.DARK
+                theme=UI_THEME_TYPE.DARK
             )
         await self.sleep(5)
         res = await self.UI.display_modal(
@@ -47,10 +47,10 @@ class RayaApplication(RayaApplicationBase):
 
         if response['selected_option']['id'] == 2:
             subtitle = 'That is correct! Want to close the app?'
-            modal_type = MODAL_TYPE.SUCCESS
+            modal_type = UI_MODAL_TYPE.SUCCESS
         else:
             subtitle = 'That\'s wrong!  Want to close the app?'
-            modal_type = MODAL_TYPE.ERROR
+            modal_type = UI_MODAL_TYPE.ERROR
 
         response = await self.UI.display_modal(
                 title='Modal',

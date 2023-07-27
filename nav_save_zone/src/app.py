@@ -6,7 +6,7 @@ from math import ceil
 from pygame.locals import *
 
 from raya.application_base import RayaApplicationBase
-from raya.controllers.navigation_controller import POS_UNIT, ANG_UNIT
+from raya.enumerations import POSITION_UNIT, ANGLE_UNIT
 from raya.exceptions import RayaNavNotNavigating, RayaNavInvalidGoal
 from raya.controllers.navigation_controller import NavigationController
 
@@ -82,8 +82,8 @@ class RayaApplication(RayaApplicationBase):
         for event in events:
             await self.check_event(event=event, w=w, h=h)
         robot_position = await self.navigation.get_position(
-                pos_unit=POS_UNIT.PIXEL,
-                ang_unit=ANG_UNIT.RAD
+                pos_unit=POSITION_UNIT.PIXELS,
+                ang_unit=ANGLE_UNIT.RADIANS
             )
         x_pixel, y_pixel  = (robot_position[0], robot_position[1])
         degree_angle = math.degrees(robot_position[2]) - 90
@@ -303,7 +303,7 @@ class RayaApplication(RayaApplicationBase):
                             map_name=self.map_name, 
                             zone_name=self.new_zone_name, 
                             points=self.new_zone_points.tolist(),
-                            pos_unit = POS_UNIT.PIXEL,
+                            pos_unit = POSITION_UNIT.PIXELS,
                             wait=True
                         )
                     self.new_zone_points = np.empty((0,2),int)
@@ -356,8 +356,8 @@ class RayaApplication(RayaApplicationBase):
                     x=float(goal_x), 
                     y=float(goal_y), 
                     angle=goal_angle, 
-                    pos_unit = POS_UNIT.PIXEL, 
-                    ang_unit = ANG_UNIT.RAD,
+                    pos_unit = POSITION_UNIT.PIXELS, 
+                    ang_unit = ANGLE_UNIT.RADIANS,
                     callback_feedback = None,
                     callback_finish = None,
                     wait=False,

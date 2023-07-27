@@ -1,4 +1,4 @@
-from raya.enumerations import ANIMATION_TYPE
+from raya.enumerations import UI_ANIMATION_TYPE
 
 # SCREENS
 
@@ -30,7 +30,7 @@ UI_SCREEN_NAV_TO_KITCHEN = {
 UI_SCREEN_TAKE_PHOTO = {
         'title':'Nothing to eat 🍽', 
         'subtitle':'Consider going to the supermarket 🛒',
-        'format':ANIMATION_TYPE.JPEG,
+        'format':UI_ANIMATION_TYPE.JPEG,
     }
 
 UI_SCREEN_COME_BACK_WITHOUT_FOOD = {
@@ -72,6 +72,12 @@ UI_SCREEN_COME_BACK_FROM_LAUNDRY = {
 UI_SCREEN_END = {
         'title':'Thanks!', 
         'subtitle':'Don\'t forget to subscribe and like 😉',
+        'show_loader':False,
+    }
+
+UI_SCREEN_INTERRUPTED = {
+        'title':'Bye!', 
+        'subtitle':'The application was interrupted 😢',
         'show_loader':False,
     }
 

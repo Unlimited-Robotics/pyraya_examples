@@ -1,7 +1,7 @@
 import random
 
 from raya.application_base import RayaApplicationBase
-from raya.enumerations import EXECUTION_CONTROL
+from raya.enumerations import LEDS_EXECUTION_CONTROL
 
 class RayaApplication(RayaApplicationBase):
 
@@ -42,7 +42,7 @@ class RayaApplication(RayaApplicationBase):
                     animation, 
                     speed, 
                     repetitions, 
-                    execution_control = EXECUTION_CONTROL.OVERRIDE,
+                    execution_control = LEDS_EXECUTION_CONTROL.OVERRIDE,
                     wait=True
                 )
             color = 'red_general'

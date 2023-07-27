@@ -2,7 +2,7 @@ import base64
 import json
 
 from raya.application_base import RayaApplicationBase
-from raya.enumerations import ANIMATION_TYPE
+from raya.enumerations import UI_ANIMATION_TYPE
 from raya.controllers.ui_controller import UIController
 from raya.tools.filesystem import open_file
 
@@ -34,7 +34,7 @@ class RayaApplication(RayaApplicationBase):
         await self.UI.display_animation(
                 title = 'Go there',
                 subtitle='This is a Lottie file',
-                content = arrow_anim, format=ANIMATION_TYPE.LOTTIE
+                content = arrow_anim, format=UI_ANIMATION_TYPE.LOTTIE
             )
         await self.sleep(5)
 
@@ -43,7 +43,7 @@ class RayaApplication(RayaApplicationBase):
         await self.UI.display_animation(
                 title = 'This is a bridge with a forest',
                 subtitle='This a Jpeg file',
-                content = IMAGE_BRIDGE_SRC, format=ANIMATION_TYPE.URL
+                content = IMAGE_BRIDGE_SRC, format=UI_ANIMATION_TYPE.URL
             )
         await self.sleep(5)
 
@@ -52,7 +52,7 @@ class RayaApplication(RayaApplicationBase):
         await self.UI.display_animation(
                 title = 'This is Spirobranchus giganteus',
                 subtitle='This is a Jpeg file',
-                content = marine_anim, format=ANIMATION_TYPE.JPEG
+                content = marine_anim, format=UI_ANIMATION_TYPE.JPEG
             )
         await self.sleep(5)
         self.finish_app()
