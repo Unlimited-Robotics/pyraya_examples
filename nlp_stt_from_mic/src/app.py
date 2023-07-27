@@ -15,8 +15,7 @@ class RayaApplication(RayaApplicationBase):
         self.nlp: NlpController = await self.enable_controller('nlp')
         await self.nlp.stt_set_provider(
                 'google_stt', 
-                credentials=CREDENTIALS_FILE,
-                is_credentials_file=True
+                credentials_file=CREDENTIALS_FILE
             )
 
 
@@ -25,7 +24,9 @@ class RayaApplication(RayaApplicationBase):
                 microphone='head', 
                 voice_detector='silero_v4',
                 language='en-US',
-                timeout=5.0
+                timeout=5.0,
+                callback_feedback=self.cb_transcribe_feedback,
+                wait=True,
             )
         self.log.info(f'Result: {text}')
         self.finish_app()
@@ -33,3 +34,8 @@ class RayaApplication(RayaApplicationBase):
 
     async def finish(self):
         self.log.info('Ra-Ya application finished')
+
+
+    def cb_transcribe_feedback(self, feedback_code, feedback_msg):
+        # self.log.info(f'State code:  {feedback_code}')
+        self.log.info(f'State msg:  {feedback_msg}')
