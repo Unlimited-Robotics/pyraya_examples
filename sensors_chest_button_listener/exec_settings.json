@@ -1,0 +1,4 @@
+{
+    "app-id": "sensors_chest_button_listener",
+    "app-description": "Launch a listener alert when the temperature is over 28 degrees"
+}
