@@ -5,6 +5,12 @@ from raya.application_base import RayaApplicationBase
 from raya.controllers.nlp_controller import NlpController
 
 
+# If coqui
+PROVIDER = 'coqui_tts'
+VOICE = 'male-en-2'
+# If google
+# PROVIDER = 'google_tts'
+# VOICE = 'us'
 
 class RayaApplication(RayaApplicationBase):
 
@@ -12,14 +18,14 @@ class RayaApplication(RayaApplicationBase):
         self.log.info('Ra-Ya Py - Computer Vision Tag Detection Example')
         self.nlp: NlpController = await self.enable_controller('nlp')
         await self.nlp.tts_set_provider(
-                'google_tts'
+                PROVIDER
             )
 
 
     async def loop(self):
         await self.nlp.tts_play_text(
-                text='Hello this is a test', 
-                voice='us',
+                text='Hello there, my name is Gary', 
+                voice=VOICE,
                 language='en',
                 callback_feedback=self.cb_transcribe_feedback,
                 wait=True,
