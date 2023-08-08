@@ -1,10 +1,5 @@
-import base64
-import json
-
 from raya.application_base import RayaApplicationBase
-from raya.enumerations import UI_ANIMATION_TYPE
 from raya.controllers.ui_controller import UIController
-from raya.tools.filesystem import open_file
 
 
 IMAGEN_MARINE_PATH = 'res:animal.jpeg'
@@ -20,39 +15,37 @@ class RayaApplication(RayaApplicationBase):
 
 
     async def loop(self):
-        arrow_anim = json.load(open_file(IMAGE_ARROW_PATH))
-        with open_file(IMAGEN_MARINE_PATH, 'rb') as f:
-            marine_anim = base64.b64encode(f.read()).decode('utf-8')
-
+        # Welcome screen
         await self.UI.display_screen(
                 title='Hi there!',
                 subtitle='Look at this!'
             )
         await self.sleep(1)
-
-        self.log.info(f'Displaying {IMAGE_ARROW_PATH} animation')
-        await self.UI.display_animation(
-                title = 'Go there',
-                subtitle='This is a Lottie file',
-                content = arrow_anim, format=UI_ANIMATION_TYPE.LOTTIE
-            )
-        await self.sleep(5)
-
+        
         # URL image
-        self.log.info(f'Displaying {IMAGE_BRIDGE_SRC} URL animation\n')
-        await self.UI.display_animation(
-                title = 'This is a bridge with a forest',
-                subtitle='This a Jpeg file',
-                content = IMAGE_BRIDGE_SRC, format=UI_ANIMATION_TYPE.URL
-            )
+        self.log.info(f'Displaying {IMAGE_BRIDGE_SRC} URL animation')
+        await self.UI.show_animation(
+            title = 'This is a bridge with a forest',
+            subtitle='This a image from a URL',
+            url = IMAGE_BRIDGE_SRC
+        )
         await self.sleep(5)
-
-        #base64 image
+        
+        # Lottie File
+        self.log.info(f'Displaying {IMAGE_ARROW_PATH} animation')
+        await self.UI.show_animation(
+            title = 'This is a bridge with a forest',
+            subtitle='This a lottie file',
+            lottie = IMAGE_ARROW_PATH
+        )
+        await self.sleep(5)
+        
+        #Image from path
         self.log.info(f'Displaying {IMAGEN_MARINE_PATH} animation')
-        await self.UI.display_animation(
+        await self.UI.show_animation(
                 title = 'This is Spirobranchus giganteus',
                 subtitle='This is a Jpeg file',
-                content = marine_anim, format=UI_ANIMATION_TYPE.JPEG
+                path = IMAGEN_MARINE_PATH
             )
         await self.sleep(5)
         self.finish_app()
