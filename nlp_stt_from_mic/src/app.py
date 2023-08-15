@@ -14,17 +14,17 @@ class RayaApplication(RayaApplicationBase):
         self.log.info('Ra-Ya Py - Computer Vision Tag Detection Example')
         self.nlp: NlpController = await self.enable_controller('nlp')
         await self.nlp.stt_set_provider(
-                'google_stt', 
+                self.provider, 
                 credentials_file=CREDENTIALS_FILE
             )
 
 
     async def loop(self):
         text = await self.nlp.stt_transcribe_from_mic(
-                microphone='head', 
-                voice_detector='silero_v4',
-                language='en-US',
-                timeout=5.0,
+                microphone=self.microphone, 
+                voice_detector=self.voice_detector,
+                language=self.language,
+                timeout=self.timeout,
                 callback_feedback=self.cb_transcribe_feedback,
                 wait=True,
             )
@@ -36,6 +36,38 @@ class RayaApplication(RayaApplicationBase):
         self.log.info('Ra-Ya application finished')
 
 
+    def get_arguments(self):
+        self.provider = self.get_argument(
+                '-p', '--provider', 
+                default='google_stt',
+                help='provider to use'
+            )
+        self.voice_detector = self.get_argument(
+                '-v', '--voice-detector', 
+                type=str, 
+                default='silero_v4',
+                help='voice detector to use with microphone'
+            )
+        self.microphone = self.get_argument(
+                '-m', '--microphone', 
+                type=str, 
+                default='head',
+                help='microphone name to use'
+            )       
+        self.language = self.get_argument(
+                '-l', '--language', 
+                type=str, 
+                default='en-US',
+                help='voice language, may change depending the provider'
+            )   
+        self.timeout = self.get_argument(
+                '-t',  '--timeout', 
+                type=float, 
+                default=5.0,
+                help='time to record, if not voice detector is setted'
+            ) 
+          
+          
     def cb_transcribe_feedback(self, feedback_code, feedback_msg):
         # self.log.info(f'State code:  {feedback_code}')
         self.log.info(f'State msg:  {feedback_msg}')
