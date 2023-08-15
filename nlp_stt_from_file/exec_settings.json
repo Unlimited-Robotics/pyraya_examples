@@ -1,4 +1,4 @@
 {
     "app-id": "nlp_stt_from_file",
-    "app-description": "Example to detect apriltags"
+    "app-description": "Speech to text with file example"
 }

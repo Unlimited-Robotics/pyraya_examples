@@ -11,7 +11,9 @@ CREDENTIALS_FILE = f'res:client_service_key.json'
 class RayaApplication(RayaApplicationBase):
 
     async def setup(self):
-        self.log.info('Ra-Ya Py - Computer Vision Tag Detection Example')
+        self.log.info(
+                'Ra-Ya Py - Speech to text with microphone Detection Example'
+            )
         self.nlp: NlpController = await self.enable_controller('nlp')
         await self.nlp.stt_set_provider(
                 self.provider, 
@@ -26,6 +28,7 @@ class RayaApplication(RayaApplicationBase):
                 language=self.language,
                 timeout=self.timeout,
                 callback_feedback=self.cb_transcribe_feedback,
+                callback_finish=self.cb_transcribe_finish,
                 wait=True,
             )
         self.log.info(f'Result: {text}')
@@ -67,7 +70,12 @@ class RayaApplication(RayaApplicationBase):
                 help='time to record, if not voice detector is setted'
             ) 
           
-          
+
     def cb_transcribe_feedback(self, feedback_code, feedback_msg):
         # self.log.info(f'State code:  {feedback_code}')
         self.log.info(f'State msg:  {feedback_msg}')
+
+
+    def cb_transcribe_finish(self, error, error_msg, transcription):
+        self.log.info(f'Error code:  {error}')
+        self.log.info(f'Error msg:  {error_msg}')

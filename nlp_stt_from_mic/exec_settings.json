@@ -1,4 +1,4 @@
 {
     "app-id": "nlp_stt_from_mic",
-    "app-description": "Example to detect apriltags"
+    "app-description": "Speech to text with microphone Detection Example"
 }
