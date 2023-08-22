@@ -38,7 +38,7 @@ class RayaApplication(RayaApplicationBase):
         robot_localized = await self.navigation.set_map(
                 map_name=self.map_name, 
                 wait_localization=True, 
-                timeout=3.0,
+                timeout=60.0,
                 callback_feedback=self.cb_set_map_feedback,
                 callback_finish=self.cb_set_map_finish
             )
