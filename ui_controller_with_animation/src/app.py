@@ -1,10 +1,5 @@
-import base64
-import json
-
 from raya.application_base import RayaApplicationBase
-from raya.enumerations import UI_ANIMATION_TYPE
 from raya.controllers.ui_controller import UIController
-from raya.tools.filesystem import open_file
 
 
 IMAGEN_MARINE_PATH = 'res:animal.jpeg'
@@ -28,7 +23,7 @@ class RayaApplication(RayaApplicationBase):
         await self.sleep(1)
         
         # URL image
-        self.log.info(f'Displaying {IMAGE_BRIDGE_SRC} URL animation\n')
+        self.log.info(f'Displaying {IMAGE_BRIDGE_SRC} URL animation')
         await self.UI.show_animation(
             title = 'This is a bridge with a forest',
             subtitle='This a image from a URL',
