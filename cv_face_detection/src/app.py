@@ -45,7 +45,7 @@ class RayaApplication(RayaApplicationBase):
         self.detector = await self.cv.enable_model(
                 name=self.model,
                 source=self.working_camera,
-                model_params = {'scale': 0.3}
+                model_params = {'scale': 0.3, 'depth': True}
             )
         self.log.info('Model enabled')
 
@@ -90,5 +90,7 @@ class RayaApplication(RayaApplicationBase):
     def callback_all_faces(self, detections, image):
         if detections:
             image = draw_on_image(image=image, last_predictions=detections)
+        for idx, detection in enumerate(detections):
+            self.log.info(f'Face {idx} distance: {detection["distance"]}')
         show_image(img=image, title='Video from Gary\'s camera')
     
