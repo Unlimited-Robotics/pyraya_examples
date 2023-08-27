@@ -13,6 +13,7 @@ UI_CONTROLLER_SELECTOR = {
                 {'id': 1, 'name': '🔊 Sound 🔊'}, 
                 {'id': 2, 'name': '🦾 Arms 🦾'}, 
                 {'id': 3, 'name': '💃 Motion 💃'},
+                {'id': 4, 'name': '💡 Leds 💡'},
             ]
     }
 

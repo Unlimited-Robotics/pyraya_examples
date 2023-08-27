@@ -5,6 +5,9 @@ from raya.exceptions import RayaException
 from src.static.ui.general import *
 from src.handlers.sound_handler import SoundHandler
 from src.handlers.arms_handler import ArmsHandler
+from src.handlers.motion_handler import MotionHandler
+from src.handlers.leds_handler import LedsHandler
+
 
 class RayaApplication(RayaApplicationBase):
 
@@ -15,6 +18,8 @@ class RayaApplication(RayaApplicationBase):
         self.handlers = {
             1: SoundHandler(self),
             2: ArmsHandler(self),
+            3: MotionHandler(self),
+            4: LedsHandler(self),
         }
         for handler in self.handlers.values():
             await handler.init()
@@ -44,7 +49,8 @@ class RayaApplication(RayaApplicationBase):
             error_file, error_lineno = e.get_raya_file()
             await self.ui.display_modal(
                     **UI_RAYA_EXCEPTION,
-                    subtitle=type(e).__name__,
+                    subtitle='Something happened',
+                    #subtitle=type(e).__name__,
                     content=f'{error_file}[{error_lineno}]: {str(e)}',
                 )
 
@@ -55,13 +61,13 @@ class RayaApplication(RayaApplicationBase):
 
     def get_arguments(self):
         self.selection = self.get_argument(
-                '-s1', '--selection1',
+                '--selection1',
                 type=int,
                 required=False,
                 default=-1,
             )
         self.sub_selection = self.get_argument(
-                '-s2', '--selection2',
+                '--selection2',
                 type=int,
                 required=False,
                 default=-1,
