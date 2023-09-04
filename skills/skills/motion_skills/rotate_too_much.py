@@ -1,5 +1,5 @@
 from raya.controllers.motion_controller import MotionController
-from raya.skill import RayaSkill
+from raya.skills.skill import RayaSkill
 
 
 class SkillRotateTooMuch(RayaSkill):
@@ -7,13 +7,12 @@ class SkillRotateTooMuch(RayaSkill):
     async def setup(self):
         self.ctlr_motion:MotionController = \
                 await self.get_controller('motion')
-        pass
 
 
-    async def run(self):
+    async def main(self):
         await self.ctlr_motion.rotate(
-                angle=45,
-                angular_speed=20,
+                angle=20,
+                angular_speed=40,
                 wait=True
             )
 

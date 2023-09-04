@@ -1,7 +1,7 @@
+import asyncio
+
 from raya.controllers.motion_controller import MotionController
 from raya.application_base import RayaApplicationBase
-
-from raya.skill import RayaSkillHandler
 
 from skills.motion_skills.rotate_too_much import SkillRotateTooMuch
 
@@ -15,11 +15,9 @@ class RayaApplication(RayaApplicationBase):
         self.skill_toorotate = self.register_skill(SkillRotateTooMuch)
 
 
-    async def run(self):
+    async def main(self):
         self.log.info('Run from App')
-        await self.skill_toorotate.setup()
         await self.skill_toorotate.run()
-        await self.skill_toorotate.finish()
 
 
     async def finish(self):
