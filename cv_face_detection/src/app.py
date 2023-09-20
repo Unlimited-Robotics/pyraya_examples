@@ -67,7 +67,7 @@ class RayaApplication(RayaApplicationBase):
 
     async def finish(self):
         self.log.info('Disabling model...')
-        await self.cv.disable_model(model='detector', type='face')
+        await self.cv.disable_model(self.detector)
         self.log.info('Disabling camera...')
         await self.cameras.disable_color_camera(self.working_camera)
         self.log.info('Ra-Ya application finished')
