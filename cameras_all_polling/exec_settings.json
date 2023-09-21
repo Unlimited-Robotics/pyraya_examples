@@ -1,0 +1,4 @@
+{
+    "app-id": "cameras_all_polling",
+    "app-description": "Example that visualize a camera in real time, polling the frame."
+}
