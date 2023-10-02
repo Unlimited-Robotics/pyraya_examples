@@ -100,7 +100,7 @@ class RayaApplication(RayaApplicationBase):
                         ang_unit = ANGLE_UNIT.RADIANS,
                         callback_feedback = self.cb_nav_feedback,
                         callback_finish = self.cb_nav_finish,
-                        # wait=False,
+                        options={"behavior_tree": "gary_navigate_and_backup.xml"},
                         wait=False,
                     )
                 except RayaNavInvalidGoal:
