@@ -17,9 +17,9 @@ class RayaApplication(RayaApplicationBase):
             self.print_list_arms()
 
         elif self.group:
-            if not self.group in self.arms.get_list_of_arms():
+            if not self.group in self.arms.get_groups_list():
                 self.print_list_arms()
-                raise ValueError(f"the arm name {self.group} is invalid")
+                raise ValueError(f"the group name {self.group} is invalid")
 
             await self.execute_pose()
         self.finish_app()
