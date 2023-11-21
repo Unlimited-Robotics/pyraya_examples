@@ -7,20 +7,6 @@ from raya.exceptions import RayaNavNotNavigating, RayaNavInvalidGoal
 from raya.controllers.navigation_controller import NavigationController
 
 
-GARY_FOOTPRINT = [
-        [-0.25,  0.35],
-        [ 0.25,  0.35],
-        [ 0.25, -0.35],
-        [-0.25, -0.35]
-    ]
-GARY_AND_TRAY_FOOTPTINT = [
-        [-0.28,  0.37],
-        [ 0.60,  0.37],
-        [ 0.60, -0.37],
-        [-0.28, -0.37]
-    ]
-
-
 class RayaApplication(RayaApplicationBase):
 
     async def setup(self):
@@ -28,7 +14,6 @@ class RayaApplication(RayaApplicationBase):
         self.counter = 0
         self.navigation: NavigationController = \
                 await self.enable_controller('navigation')
-        await self.navigation.update_robot_footprint(points=GARY_FOOTPRINT)
         self.list_of_maps = await self.navigation.get_list_of_maps()
         self.log.info(f'List of maps: {self.list_of_maps}')
         self.log.info((
@@ -37,22 +22,18 @@ class RayaApplication(RayaApplicationBase):
             ))
         robot_localized = await self.navigation.set_map(
                 map_name=self.map_name, 
-                wait_localization=True, 
-                timeout=60.0,
+                wait_localization=False, 
+                timeout=20.0,
                 callback_feedback=self.cb_set_map_feedback,
                 callback_finish=self.cb_set_map_finish
             )
         if not robot_localized:
             self.log.error(f'Robot couldn\'t localize itself')
-            self.finish_app()
+            #self.finish_app()
         self.log.info(f'Using map \'{self.map_name}\'')
         self.map_image, self.map_info = await self.navigation.get_map(
                 map_name=self.map_name
             )
-        try:
-            await self.navigation.enable_speed_zones()
-        except:
-            self.log.info(f'No speed zones available')
         cv2.namedWindow('map')
         cv2.setMouseCallback('map', self.get_click_coordinates)
         self.click_down = False
@@ -78,34 +59,20 @@ class RayaApplication(RayaApplicationBase):
         key = cv2.waitKey(20) & 0xFF
         if key == 27:
             self.finish_app()
-        if key == ord('C') or key == ord('c'):
-            if self.navigation.is_navigating():
-                self.log.info('Cancelling current navigation')
-                try:
-                    await self.navigation.cancel_navigation()
-                except:
-                    self.log.error('No navigation in execution...')
         if self.new_flag:
-            if self.navigation.is_navigating():
-                self.log.warn('Cancel current goal before send a new one.')
-                self.new_flag = False
-            else:
-                self.log.warn(f'New goal received {self.new_goal}')
-                try:
-                    await self.navigation.navigate_to_position( 
-                        # x=0.0, y=1.0, angle=90.0, pos_unit = POSITION_UNIT.METERS, 
+            self.log.warn(f'Trying to set localization: {self.new_goal}')
+            try:
+                await self.navigation.set_current_pose(
                         x=float(self.new_goal[0]), 
                         y=float(self.new_goal[1]), 
-                        angle=self.new_goal[2], pos_unit = POSITION_UNIT.PIXELS, 
+                        angle=self.new_goal[2],
+                        pos_unit = POSITION_UNIT.PIXELS,
                         ang_unit = ANGLE_UNIT.RADIANS,
-                        callback_feedback = self.cb_nav_feedback,
-                        callback_finish = self.cb_nav_finish,
-                        #options={"behavior_tree": "navigate_and_move_back"},
-                        wait=False,
                     )
-                except RayaNavInvalidGoal:
-                    self.log.warn(f'Invalid goal')
-                self.new_flag = False
+                self.log.warn(f'Localization acepted.')
+            except:
+                self.log.warn(f'Localization rejected.')
+            self.new_flag = False
 
 
     async def finish(self):
@@ -133,18 +100,6 @@ class RayaApplication(RayaApplicationBase):
         if error != 0:
             self.log.error(f'set map finish: {error} {error_msg}')
             self.finish_app()
-
-
-    def cb_nav_finish(self, error, error_msg):
-        self.log.info(f'Navigation Finish: {error} {error_msg}')
-
-
-    def cb_nav_feedback(self, error, error_msg, distance_to_goal, speed):
-        self.log.info((
-                'Navigation Feedback: \n'
-                f'error = {error} \n error_msg={error_msg} \n' 
-                f'distance_to_goal = {distance_to_goal}, speed = {speed}'
-            ))
 
 
     def draw(self, robot_position):

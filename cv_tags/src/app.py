@@ -155,7 +155,13 @@ class RayaApplication(RayaApplicationBase):
             image = draw_on_image(
                     image=image, 
                     last_predictions=detections
+                    )
+            for tag in detections:
+                self.log.info(
+                    f'tag id:{tag["tag_id"]}, '
+                    f'{tag["pose_base_link"].pose.position}'
                 )
+            self.log.info('')
         show_image(img=image, title='Video from Gary\'s camera')
 
 

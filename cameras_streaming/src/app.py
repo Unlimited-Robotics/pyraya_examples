@@ -27,7 +27,7 @@ class RayaApplication(RayaApplicationBase):
         self.log.info(f'If you have ffmpeg installed in your local machine, ')
         self.log.info(f'you can create a server to send the camera stream')
         self.log.info(f'  ffplay \'{protocol}://:{port}?streamid=publish/'
-                      f'{path}&mode=listener')
+                      f'{path}&mode=listener\'')
         self.log.info(f'Remember create the server before running the example')
         self.log.info('')
         self.log.info(f'You can install ffmpeg in your ubuntu machine with:')

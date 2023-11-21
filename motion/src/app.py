@@ -27,8 +27,8 @@ class RayaApplication(RayaApplicationBase):
             )
         self.motion_flag = True
         await self.motion.rotate(
-                angle=-1.5708, 
-                angular_speed=0.349, 
+                angle=1.5708, 
+                angular_speed=-0.349, 
                 ang_unit=ANGLE_UNIT.RADIANS,
                 callback_finish=self.cb_motion_finished
             )

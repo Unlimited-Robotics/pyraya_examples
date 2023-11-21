@@ -1,0 +1,4 @@
+{
+    "app-id": "nav_set_current_localization",
+    "app-description": "Example that loads a map and allows sending localizations by clicking on the map image. The click can be held down to select the target orientation."
+}
