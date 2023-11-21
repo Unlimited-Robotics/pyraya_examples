@@ -16,7 +16,7 @@ class RayaApplication(RayaApplicationBase):
         # Cameras
         self.cameras: CamerasController = \
                 await self.enable_controller('cameras')
-        self.available_cameras = self.cameras.available_color_cameras()
+        self.available_cameras = self.cameras.available_cameras()
         self.log.info('Available cameras:')
         self.log.info(f'  {self.available_cameras}')
 
@@ -36,7 +36,7 @@ class RayaApplication(RayaApplicationBase):
         else:
             # If a camera name wasn't set it works with camera in zero position
             self.working_camera = self.available_cameras[0]
-        await self.cameras.enable_color_camera(self.working_camera)
+        await self.cameras.enable_camera(self.working_camera)
 
         # Pretty print
         self.log.info(json.dumps(self.available_models, indent=2))
@@ -78,7 +78,7 @@ class RayaApplication(RayaApplicationBase):
         self.log.info('Disabling model...')
         await self.cv.disable_model(model_obj=self.detector)
         self.log.info('Disabling camera...')
-        await self.cameras.disable_color_camera(self.camera)
+        await self.cameras.disable_camera(self.camera)
         self.log.info('Ra-Ya application finished')
 
 

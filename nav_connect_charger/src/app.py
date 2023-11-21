@@ -67,7 +67,7 @@ class RayaApplication(RayaApplicationBase):
         self.log.info(f'Cameras activated')
         self.cv: CVController = await self.enable_controller('cv')
         self.log.info(f'CV activated')
-        await self.cameras.enable_color_camera(self.CAMERA)
+        await self.cameras.enable_camera(self.CAMERA)
         model_params = {
                 'families': self.TAG_FAMILY,
                 'nthreads': 4,

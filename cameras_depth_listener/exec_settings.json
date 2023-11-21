@@ -1,0 +1,4 @@
+{
+    "app-id": "cameras_depth_listener",
+    "app-description": "Example that visualize a depth camera in real time, using the corresponding listener"
+}

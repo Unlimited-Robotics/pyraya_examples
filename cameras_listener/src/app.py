@@ -19,7 +19,7 @@ class RayaApplication(RayaApplicationBase):
                                     await self.enable_controller('cameras')
         
         # Check if selected camera is available
-        available_cameras = self.cameras.available_color_cameras()
+        available_cameras = self.cameras.available_cameras()
         if not self.camera_name in available_cameras:
             self.log.error(f'Camera \'{self.camera_name}\' not available')
             self.log.info('Available cameras:')
@@ -28,9 +28,9 @@ class RayaApplication(RayaApplicationBase):
             self.abort_app()
 
         self.log.info(f'Enabling camera \'{self.camera_name}\'')
-        await self.cameras.enable_color_camera(camera_name=self.camera_name)
+        await self.cameras.enable_camera(camera_name=self.camera_name)
         self.log.info(f'Enabling listener for camera \'{self.camera_name}\'')
-        self.cameras.create_color_frame_listener(
+        self.cameras.create_frame_listener(
                 camera_name=self.camera_name,
                 callback=self.callback_color_frame,
             )
@@ -58,7 +58,7 @@ class RayaApplication(RayaApplicationBase):
 
     async def finish(self):
         self.log.info('Disabling camera...')
-        await self.cameras.disable_color_camera(self.camera_name)
+        await self.cameras.disable_camera(self.camera_name)
         if self.spin_ena and self.motion.is_moving():
             self.log.info('Stopping robot movement...')
             await self.motion.cancel_motion()
