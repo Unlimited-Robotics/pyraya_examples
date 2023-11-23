@@ -2,7 +2,7 @@
 
 # Raya Imports
 from raya.application_base import RayaApplicationBase
-from raya.controllers.nlp_controller import NlpController
+from raya.controllers.nlp_controller import NLPController
 
 
 # If coqui
@@ -16,7 +16,7 @@ class RayaApplication(RayaApplicationBase):
 
     async def setup(self):
         self.log.info('Ra-Ya Py - Text to Speeach Example')
-        self.nlp: NlpController = await self.enable_controller('nlp')
+        self.nlp: NLPController = await self.enable_controller('nlp')
         await self.nlp.tts_set_provider(
                 self.provider
             )

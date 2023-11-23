@@ -2,7 +2,7 @@
 
 # Raya Imports
 from raya.application_base import RayaApplicationBase
-from raya.controllers.nlp_controller import NlpController
+from raya.controllers.nlp_controller import NLPController
 
 
 CREDENTIALS_FILE = f'res:client_service_key.json'
@@ -14,7 +14,7 @@ class RayaApplication(RayaApplicationBase):
         self.log.info(
                 'Ra-Ya Py - Speech to text with microphone Detection Example'
             )
-        self.nlp: NlpController = await self.enable_controller('nlp')
+        self.nlp: NLPController = await self.enable_controller('nlp')
         await self.nlp.stt_set_provider(
                 self.provider, 
                 credentials_file=CREDENTIALS_FILE
