@@ -7,7 +7,7 @@ class RayaApplication(RayaApplicationBase):
     async def setup(self):
         self.cameras:CamerasController = \
                 await self.enable_controller('cameras')
-        available_cameras = self.cameras.available_color_cameras()
+        available_cameras = self.cameras.available_cameras()
         self.log.info('Available cameras:')
         for camera in available_cameras:
             self.log.info(f'  - {camera}')

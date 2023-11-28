@@ -23,7 +23,7 @@ class RayaApplication(RayaApplicationBase):
         # Cameras
         self.cameras: CamerasController = \
                 await self.enable_controller(ctlr_name='cameras')
-        self.available_cameras = self.cameras.available_color_cameras()
+        self.available_cameras = self.cameras.available_cameras()
         self.log.info('Available cameras:')
         self.log.info(f'{self.available_cameras}')
 
@@ -36,7 +36,7 @@ class RayaApplication(RayaApplicationBase):
             return
 
         # Enable camera
-        await self.cameras.enable_color_camera(camera_name=self.working_camera)
+        await self.cameras.enable_camera(camera_name=self.working_camera)
 
         # Computer Vision
         self.cv: CVController = await self.enable_controller(ctlr_name='cv')
@@ -85,7 +85,7 @@ class RayaApplication(RayaApplicationBase):
         self.log.info('Disabling model...')
         await self.cv.disable_model(model_obj=self.classifier)
         self.log.info('Disabling camera...')
-        await self.cameras.disable_color_camera(
+        await self.cameras.disable_camera(
                 camera_name=self.working_camera,
             )
         self.log.info('Ra-Ya application finished')

@@ -73,7 +73,7 @@ class RayaApplication(RayaApplicationBase):
             
 
     def is_simulation(self):
-        camera_names = self.cameras.available_color_cameras()
+        camera_names = self.cameras.available_cameras()
         return 'nav_top' not in camera_names
 
 
@@ -83,7 +83,7 @@ class RayaApplication(RayaApplicationBase):
             self.main_camera = CAMERA_SIMULATION
         else:
             self.main_camera = CAMERA_REAL_ROBOT
-        await self.cameras.enable_color_camera(self.main_camera)
+        await self.cameras.enable_camera(self.main_camera)
         self.log.info('Cameras ready')
 
 

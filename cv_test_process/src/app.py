@@ -17,7 +17,7 @@ class RayaApplication(RayaApplicationBase):
     async def setup(self):
         self.cameras: CamerasController = \
                 await self.enable_controller('cameras')
-        await self.cameras.enable_color_camera(CAMERA)
+        await self.cameras.enable_camera(CAMERA)
         self.cv: CVController = await self.enable_controller('cv')
         self.model_params = {}
         self.prediction_received = False

@@ -25,7 +25,7 @@ class RayaApplication(RayaApplicationBase):
         # Call Cameras Controller
         self.cameras: CamerasController = \
                                     await self.enable_controller('cameras')
-        self.available_cameras = self.cameras.available_color_cameras()
+        self.available_cameras = self.cameras.available_cameras()
         self.working_camera = None
         self.log.info('Available cameras:')
         self.log.info(f'  {self.available_cameras}')
@@ -44,10 +44,10 @@ class RayaApplication(RayaApplicationBase):
             self.finish_app()
 
         # Enable camera
-        await self.cameras.enable_color_camera(self.working_camera)
+        await self.cameras.enable_camera(self.working_camera)
 
         # Create listener
-        self.cameras.create_color_frame_listener(
+        self.cameras.create_frame_listener(
                 camera_name=self.working_camera,
                 callback=self.callback_color_frame
             )
