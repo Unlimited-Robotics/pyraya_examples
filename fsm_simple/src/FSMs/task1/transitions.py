@@ -23,7 +23,7 @@ class Transitions(BaseTransitions):
 
     async def NAV_TO_HOME(self):
         if not self.app.nav.is_navigating():
-            nav_error = self.app.nav.get_last_navigation_error()
+            nav_error = self.app.nav.get_last_result()
             # nav_error[0]: error code
             # nav_error[1]: error message
             if nav_error[0] == 0:
@@ -63,7 +63,7 @@ class Transitions(BaseTransitions):
     
     async def NAV_TO_KITCHEN(self):
         if not self.app.nav.is_navigating():
-            nav_error = self.app.nav.get_last_navigation_error()
+            nav_error = self.app.nav.get_last_result()
             if nav_error[0] == 0:
                 self.set_state('TAKE_PHOTO')
             else:
@@ -77,7 +77,7 @@ class Transitions(BaseTransitions):
 
     async def NAV_TO_BEDROOM(self):
         if not self.app.nav.is_navigating():
-            nav_error = self.app.nav.get_last_navigation_error()
+            nav_error = self.app.nav.get_last_result()
             if nav_error[0] == 0:
                 self.set_state('WAVE')
             else:
@@ -91,7 +91,7 @@ class Transitions(BaseTransitions):
 
     async def NAV_TO_LAUNDRY(self):
         if not self.app.nav.is_navigating():
-            nav_error = self.app.nav.get_last_navigation_error()
+            nav_error = self.app.nav.get_last_result()
             if nav_error[0] == 0:
                 self.set_state('LOOK_FOR_PANTS')
             else:
