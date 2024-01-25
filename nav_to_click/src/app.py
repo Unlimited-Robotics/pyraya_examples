@@ -1,5 +1,7 @@
 import cv2
 import math
+import numpy as np
+from enum import Enum
 
 from raya.application_base import RayaApplicationBase
 from raya.enumerations import POSITION_UNIT, ANGLE_UNIT
@@ -13,12 +15,24 @@ GARY_FOOTPRINT = [
         [ 0.25, -0.35],
         [-0.25, -0.35]
     ]
+
 GARY_AND_TRAY_FOOTPTINT = [
         [-0.28,  0.37],
         [ 0.60,  0.37],
         [ 0.60, -0.37],
         [-0.28, -0.37]
     ]
+
+ROBOT_RADIUS = 0.35
+
+MAX_WINDOW_SIZE = (700, 1200)
+
+COLOR_INFLATION = [210, 210, 255]
+
+COLOR_IDLE = [200, 200, 200]
+COLOR_ERROR = [150, 150, 255]
+COLOR_DONE = [150, 255, 150]
+COLOR_NAVIGATING = [255, 180, 180]
 
 
 class RayaApplication(RayaApplicationBase):
@@ -49,17 +63,41 @@ class RayaApplication(RayaApplicationBase):
         self.map_image, self.map_info = await self.navigation.get_map(
                 map_name=self.map_name
             )
+        
+        # WINDOW SIZE
+        self.map_viz_scale = MAX_WINDOW_SIZE[0] / self.map_image.shape[0]
+        if int(self.map_viz_scale*self.map_image.shape[1]) \
+                > MAX_WINDOW_SIZE[1]:
+            self.map_viz_scale = MAX_WINDOW_SIZE[1] / self.map_image.shape[1]
+        self.map_viz_size = (
+                int(self.map_viz_scale*self.map_image.shape[0]),
+                int(self.map_viz_scale*self.map_image.shape[1]),
+            )
+        
+        # VIZ
+        self.robot_radius_pixels = int(
+                self.map_viz_scale * ROBOT_RADIUS / self.map_info['resolution']
+            )
+        self.create_restricted_map()
+        self.background_color = COLOR_IDLE
+        self.background_counter = 0
+
         try:
             await self.navigation.enable_speed_zones()
         except:
             self.log.info(f'No speed zones available')
         cv2.namedWindow('map')
         cv2.setMouseCallback('map', self.get_click_coordinates)
-        self.click_down = False
+        self.click_pressed = False
         self.point_down = (0,0)
         self.point_mouse = (0,0)
         self.new_goal = (0,0,0)
-        self.new_flag = False
+        self.new_goal_flag = False
+
+        self.create_task(
+                name='position_print',
+                afunc=self.print_position,
+            )
 
         self.log.info('')
         self.log.info('Controls:')
@@ -85,27 +123,47 @@ class RayaApplication(RayaApplicationBase):
                     await self.navigation.cancel_navigation()
                 except:
                     self.log.error('No navigation in execution...')
-        if self.new_flag:
+        if self.new_goal_flag:
             if self.navigation.is_navigating():
                 self.log.warn('Cancel current goal before send a new one.')
-                self.new_flag = False
+                self.new_goal_flag = False
             else:
                 self.log.warn(f'New goal received {self.new_goal}')
-                try:
-                    await self.navigation.navigate_to_position( 
-                        # x=0.0, y=1.0, angle=90.0, pos_unit = POSITION_UNIT.METERS, 
-                        x=float(self.new_goal[0]), 
-                        y=float(self.new_goal[1]), 
-                        angle=self.new_goal[2], pos_unit = POSITION_UNIT.PIXELS, 
-                        ang_unit = ANGLE_UNIT.RADIANS,
-                        callback_feedback = self.cb_nav_feedback,
-                        callback_finish = self.cb_nav_finish,
-                        #options={"behavior_tree": "navigate_and_move_back"},
-                        wait=False,
-                    )
-                except RayaNavInvalidGoal:
+                goal_color = self.restricted_map[
+                        int(self.new_goal[1]*self.map_viz_scale),
+                        int(self.new_goal[0]*self.map_viz_scale),
+                    ]
+                if not np.all(goal_color > [250, 250, 250]):
                     self.log.warn(f'Invalid goal')
-                self.new_flag = False
+                    self.background_color = COLOR_ERROR
+                    self.background_counter = 0
+                else:
+                    try:
+                        self.background_color = COLOR_NAVIGATING
+                        self.background_counter = 0
+                        await self.navigation.navigate_to_position( 
+                            # x=0.0, y=1.0, angle=90.0, pos_unit = POSITION_UNIT.METERS, 
+                            x=float(self.new_goal[0]), 
+                            y=float(self.new_goal[1]), 
+                            angle=self.new_goal[2], pos_unit = POSITION_UNIT.PIXELS, 
+                            ang_unit = ANGLE_UNIT.RADIANS,
+                            callback_feedback = self.cb_nav_feedback,
+                            callback_finish = self.cb_nav_finish,
+                            #options={"behavior_tree": "navigate_and_move_back"},
+                            wait=False,
+                        )
+                    except RayaNavInvalidGoal:
+                        self.log.warn(f'Invalid goal')
+                        self.background_color = COLOR_ERROR
+                        self.background_counter = 0
+                self.new_goal_flag = False
+            
+        if self.background_color==COLOR_ERROR or \
+                self.background_color==COLOR_DONE:
+            self.background_counter+=1
+            if self.background_counter >= 50:
+                self.background_color = COLOR_IDLE
+                self.background_counter = 0
 
 
     async def finish(self):
@@ -136,7 +194,14 @@ class RayaApplication(RayaApplicationBase):
 
 
     def cb_nav_finish(self, error, error_msg):
-        self.log.info(f'Navigation Finish: {error} {error_msg}')
+        if error==0:
+            self.background_color = COLOR_DONE
+            self.background_counter = 0
+            self.log.info(f'Navigation Finish: {error} {error_msg}')
+        else:
+            self.background_color = COLOR_ERROR
+            self.background_counter = 0
+            self.log.info(f'Navigation Error: {error} {error_msg}')
 
 
     def cb_nav_feedback(self, error, error_msg, distance_to_goal, speed):
@@ -147,43 +212,100 @@ class RayaApplication(RayaApplicationBase):
             ))
 
 
+    async def print_position(self):
+        while True:
+            await self.sleep(5.0)
+            pos_pixels_degrees = await self.navigation.get_position(
+                    pos_unit=POSITION_UNIT.PIXELS, 
+                    ang_unit=ANGLE_UNIT.DEGREES,
+                )
+            pos_meters_radians = await self.navigation.get_position(
+                    pos_unit=POSITION_UNIT.METERS, 
+                    ang_unit=ANGLE_UNIT.RADIANS,
+                )
+            self.log.info('')
+            self.log.info('Current position: (x, y, angle)')
+            self.log.info(f' pixels/degrees: {pos_pixels_degrees}')
+            self.log.info(f' meters/radians: {pos_meters_radians}')
+            self.log.info('')
+
+
+    def create_restricted_map(self):
+        self.restricted_map = self.map_image.copy()
+        self.restricted_map = cv2.resize(
+                self.restricted_map, 
+                (
+                    self.map_viz_size[1], 
+                    self.map_viz_size[0]
+                ), 
+                interpolation=cv2.INTER_NEAREST,
+            )
+        
+        th = cv2.inRange(self.restricted_map, (220, 220, 220), (255, 255, 255))
+        dilated_map = np.zeros_like(self.restricted_map)
+        dilated_map[th != 0] = [255, 255, 255]
+        radio_kernel = self.robot_radius_pixels
+        kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2*radio_kernel+1, 2*radio_kernel+1))
+        dilated_map = cv2.erode(dilated_map, kernel, iterations=1)
+
+        # close_to_obs_idx = (original_map == [255, 255, 255]) & (dilated_map == [0, 0, 0])
+        close_to_obs_idx = np.all((self.restricted_map > [250, 250, 250]) & (dilated_map < [100, 100, 100]), axis=-1)
+        
+        self.restricted_map = self.restricted_map.copy()
+        self.restricted_map[close_to_obs_idx] = COLOR_INFLATION
+
+
     def draw(self, robot_position):
-        img = self.map_image.copy()
-        x_pixel  = int(robot_position[0])
-        y_pixel  = int(robot_position[1])
+        to_print_map = self.restricted_map.copy()
+        mask = np.all(
+                    (to_print_map >= [100, 100, 100]) & 
+                    (to_print_map <= [250, 250, 250]), 
+                axis=-1
+            )
+        to_print_map[mask] = self.background_color
+
+        x_pixel  = int(self.map_viz_scale * robot_position[0])
+        y_pixel  = int(self.map_viz_scale * robot_position[1])
         rotation = robot_position[2]
-        x_line   =  x_pixel + int(7 * math.cos(-rotation))
-        y_line   =  y_pixel + int(7 * math.sin(-rotation))
+        x_line =  x_pixel + int(self.robot_radius_pixels * math.cos(-rotation))
+        y_line   =  y_pixel + int(self.robot_radius_pixels * math.sin(-rotation))
         cv2.circle(
-                img=img, 
+                img=to_print_map, 
                 center=(x_pixel, y_pixel), 
-                radius=8, 
+                radius=self.robot_radius_pixels, 
                 color=(255,0,0), 
                 thickness=2
             )      
         cv2.line(
-                img=img, 
+                img=to_print_map, 
                 pt1=(x_pixel, y_pixel), 
                 pt2=(x_line, y_line), 
                 color=(0,0,255), 
                 thickness=4
             )
-        if self.click_down:
+        if self.click_pressed:
             cv2.arrowedLine(
-                    img=img, 
-                    pt1=self.point_down, 
-                    pt2=self.point_mouse, 
+                    img=to_print_map, 
+                    pt1=(
+                            int(self.map_viz_scale * self.point_down[0]),
+                            int(self.map_viz_scale * self.point_down[1]),
+                        ), 
+                    pt2=(
+                            int(self.map_viz_scale * self.point_mouse[0]),
+                            int(self.map_viz_scale * self.point_mouse[1]),
+                        ), 
                     color=(0,150,0), 
                     thickness=3
                 )
-        return img
+        
+        return to_print_map
 
 
     def get_click_coordinates(self, event, x, y, flags, param):
         if event == cv2.EVENT_LBUTTONDOWN:
-            self.point_down = (x, y)
-            self.point_mouse = (x, y)
-            self.click_down = True
+            self.point_down = (int(x/self.map_viz_scale), int(y/self.map_viz_scale))
+            self.point_mouse = (int(x/self.map_viz_scale), int(y/self.map_viz_scale))
+            self.click_pressed = True
         elif event == cv2.EVENT_LBUTTONUP:
             self.new_goal = (
                     self.point_down[0],
@@ -192,10 +314,10 @@ class RayaApplication(RayaApplicationBase):
                             self.point_down, self.point_mouse
                         )
                 )
-            self.new_flag = True
-            self.click_down = False
+            self.new_goal_flag = True
+            self.click_pressed = False
         elif event == cv2.EVENT_MOUSEMOVE:
-            self.point_mouse = (x, y)
+            self.point_mouse = (int(x/self.map_viz_scale), int(y/self.map_viz_scale))
 
     
     def angle_between_points(self, p1, p2):
