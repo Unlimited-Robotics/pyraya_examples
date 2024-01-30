@@ -1,0 +1,27 @@
+{
+    "name": "connection",
+    "description": "simple application to test connection with Ra-Ya",
+    "type": "app",
+    "version" : "1.0.0",
+    "dependencies" : {
+        "pip": [
+            {
+                "name": "iterators",
+                "version": "==0.1.0"
+            },
+            {
+                "name": "adorable"
+            }
+        ],
+        "skills": []
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Unlimited-Robotics/pyraya_examples"
+    },
+    "license": "MIT",
+    "author": {
+        "name": "John Doe",
+        "url": "https://johndoe.com"
+    }
+}
