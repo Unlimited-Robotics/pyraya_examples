@@ -21,7 +21,7 @@ class Transitions(BaseTransitions):
 
     async def NAV_TO_HOME(self):
         if not self.app.nav.is_navigating():
-            nav_error = self.app.nav.get_last_navigation_error()
+            nav_error = self.app.nav.get_last_result()
             if nav_error[0] == 0:
                 self.set_state('IDLE')
             else:
