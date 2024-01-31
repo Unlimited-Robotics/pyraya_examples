@@ -1,5 +1,5 @@
 {
-    "app-id": "sound_play_custom",
+    "app-id": "sound_play_custom_async",
     "app-description" : "Play an wav audio",
     "verbose-error-print": true
 }
