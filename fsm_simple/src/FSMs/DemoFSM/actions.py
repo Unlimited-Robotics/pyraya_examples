@@ -8,7 +8,7 @@ from src.static.navigation import *
 from src.static.ui import *
 from src.static.constants import *
 from src.static.arms import *
-from src.FSMs.task1.helpers import Helpers
+from .helpers import Helpers
 
 
 class Actions(BaseActions):

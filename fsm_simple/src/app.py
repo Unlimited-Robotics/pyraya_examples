@@ -6,12 +6,13 @@ from raya.controllers.ui_controller import UIController
 from raya.controllers.cameras_controller import CamerasController
 from raya.controllers.sensors_controller import SensorsController
 from raya.controllers.arms_controller import ArmsController
-from raya.tools.fsm import FSM
 
 from src.static.cameras import *
 from src.static.sensors import *
 from src.static.ui import *
 
+from src.FSMs.DemoFSM import DemoFSM
+from raya.tools.fsm import FSM
 
 class RayaApplication(RayaApplicationBase):
 
@@ -43,7 +44,9 @@ class RayaApplication(RayaApplicationBase):
         await self.init_arms()
         
         # FSMs
-        self.fsm_task1 = FSM(app=self, name='task1', log_transitions=True)
+        self.fsm_task1 = DemoFSM(log_transitions=True)
+        # self.fsm_task1 = DemoFSM(name='te', log_transitions=True)
+        # self.fsm_task1 = FSM(app=self, name='DemoFSM', log_transitions=True)
         await self.fsm_task1.run_in_background()
 
 
