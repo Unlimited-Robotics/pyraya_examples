@@ -12,7 +12,6 @@ from src.static.sensors import *
 from src.static.ui import *
 
 from src.FSMs.DemoFSM import DemoFSM
-from raya.tools.fsm import FSM
 
 class RayaApplication(RayaApplicationBase):
 
@@ -45,8 +44,6 @@ class RayaApplication(RayaApplicationBase):
         
         # FSMs
         self.fsm_task1 = DemoFSM(log_transitions=True)
-        # self.fsm_task1 = DemoFSM(name='te', log_transitions=True)
-        # self.fsm_task1 = FSM(app=self, name='DemoFSM', log_transitions=True)
         await self.fsm_task1.run_in_background()
 
 
