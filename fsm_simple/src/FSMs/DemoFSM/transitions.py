@@ -3,7 +3,7 @@ from raya.tools.fsm import BaseTransitions
 from src.app import RayaApplication
 from src.static.app_errors import *
 from src.static.constants import *
-from src.FSMs.task1.helpers import Helpers
+from .helpers import Helpers
 
 
 class Transitions(BaseTransitions):

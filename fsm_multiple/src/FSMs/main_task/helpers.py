@@ -5,6 +5,11 @@ from src.app import RayaApplication
 from src.static.app_errors import *
 from src.static.arms import *
 
+from src.FSMs.bedroom import BedroomFSM
+from src.FSMs.kitchen import KitchenFSM
+from src.FSMs.laundry import LaundryFSM
+from src.FSMs.temperature import TemperatureFSM
+
 
 class Helpers:
 
@@ -12,23 +17,19 @@ class Helpers:
         self.app = app
         # Vabiables
         self.last_ui_result = None
-        self.fsm_temperature = FSM(
-                app=self.app, 
+        self.fsm_temperature = TemperatureFSM(
                 name='temperature', 
                 log_transitions=True,
             )
-        self.fsm_kitchen = FSM(
-                app=self.app, 
+        self.fsm_kitchen = KitchenFSM(
                 name='kitchen', 
                 log_transitions=True,
             )
-        self.fsm_bedroom = FSM(
-                app=self.app, 
+        self.fsm_bedroom = BedroomFSM(
                 name='bedroom', 
                 log_transitions=True,
             )
-        self.fsm_laundry = FSM(
-                app=self.app, 
+        self.fsm_laundry = LaundryFSM(
                 name='laundry', 
                 log_transitions=True,
             )
