@@ -42,7 +42,7 @@ class RayaApplication(RayaApplicationBase):
         self.counter = 0
         self.navigation: NavigationController = \
                 await self.enable_controller('navigation')
-        await self.navigation.update_robot_footprint(points=GARY_FOOTPRINT)
+        #await self.navigation.update_robot_footprint(points=GARY_FOOTPRINT)
         self.list_of_maps = await self.navigation.get_list_of_maps()
         self.log.info(f'List of maps: {self.list_of_maps}')
         self.log.info((
