@@ -1,0 +1,19 @@
+{
+    "name": "memory game",
+    "description": "A simple memory game to test your memory",
+    "type": "app",
+    "version" : "1.0.0",
+    "dependencies" : {
+        "pip": [],
+        "skills": []
+    },
+    "repository": {
+        "type": "git",
+        "url": ""
+    },
+    "license": "MIT",
+    "author": {
+        "name": "Santiago B.",
+        "url": ""
+    }
+}
