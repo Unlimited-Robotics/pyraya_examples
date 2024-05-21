@@ -34,6 +34,7 @@ class Actions(BaseActions):
         await self.app.ui.display_animation(
                 **UI_SCREEN_TAKE_PHOTO,
                 content = img_base64,
+                format = UI_ANIMATION_TYPE.JPEG,
             )
         self.app.create_timer('TAKE_PHOTO', TIME_TAKING_KITCHEN_PHOTO)
 
