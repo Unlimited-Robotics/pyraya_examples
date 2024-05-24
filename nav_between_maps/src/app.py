@@ -31,7 +31,7 @@ class RayaApplication(RayaApplicationBase):
         self.localized = False
         self.navigation: NavigationController = \
                 await self.enable_controller('navigation')
-        await self.navigation.update_robot_footprint(points=MINI_GARY)
+        await self.navigation.update_robot_footprint(points=GARY_FOOTPRINT)
         list_of_maps = await self.navigation.get_list_of_maps()
         for floor in floors_data:
             if not floor['map_name'] in list_of_maps:
@@ -86,7 +86,7 @@ class RayaApplication(RayaApplicationBase):
 
     def get_arguments(self):
         self.enable_repeats = self.get_flag_argument(
-                '-r', '--enable_repeats',
+                '-r', '--enable-repeats',
                 help='use if you want to repeat the sequences',
             )
 
