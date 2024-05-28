@@ -1,0 +1,4 @@
+{
+    "app-id": "nav_between_maps",
+    "app-description": "Example that loads a map, navigate to a saved location, change map and navigate to another saved location."
+}

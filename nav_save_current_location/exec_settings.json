@@ -1,0 +1,4 @@
+{
+    "app-id": "nav_save_current_location",
+    "app-description": "Example that save the current robot position in the current map with the given name."
+}
