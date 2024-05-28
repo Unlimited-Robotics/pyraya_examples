@@ -7,7 +7,7 @@ from pygame.locals import *
 
 from raya.application_base import RayaApplicationBase
 from raya.enumerations import POSITION_UNIT, ANGLE_UNIT
-from raya.exceptions import RayaNavNotNavigating, RayaNavInvalidGoal
+from raya.exceptions import RayaNavLocationAlreadyExist, RayaNavNotNavigating, RayaNavInvalidGoal, RayaNavLocationsNotFound
 from raya.controllers.navigation_controller import NavigationController
 
 
@@ -37,6 +37,17 @@ class RayaApplication(RayaApplicationBase):
                 callback_feedback=None,
                 callback_finish=None
             )
+        try: 
+            #await self.navigation.save_zone( 
+            #        zone_name='test001', 
+            #        points=[[0, 0],[0, 50],[50, 50],[50, 0]], 
+            #        pos_unit = POSITION_UNIT.METERS,
+            #        map_name = self.map_name,
+            #        wait=True
+            #    )
+            self.log.info(f'Zone saved')
+        except RayaNavLocationAlreadyExist:
+            self.log.error('Unable to save zone: zone already exists.')
         if not robot_localized:
             self.log.error(f'Robot couldn\'t localize itself')
             self.finish_app()
@@ -59,7 +70,7 @@ class RayaApplication(RayaApplicationBase):
         self.height_map = self.pygame_img.get_width()
         
         self.new_zone_points = np.empty(shape=(0,2), dtype=int)
-        self.drawing = False
+        self.drawing = True
         self.new_zone_name = ''
         self.new_flag = False
         self.point_down = (0,0)
@@ -137,25 +148,36 @@ class RayaApplication(RayaApplicationBase):
                     goal_angle=self.new_goal[2]
                 )
         if self.drawing:
-            self.show_buttons_save_cancel(w, h)
+            pass
+            #self.show_buttons_save_cancel(w, h)
         else:
             self.show_button_draw(w, h)
-            base_font = pygame.font.Font(None, 22)
+            #base_font = pygame.font.Font(None, 22)
             input_rect = pygame.Rect(w - 180, h - 30, 90, 30)
             pygame.draw.rect(self.screen, (255, 0, 0), input_rect)
-            text_surface = base_font.render(
-                    self.new_zone_name, 
-                    True, 
-                    (255, 255, 255)
-                )
-            self.screen.blit(
-                    source=text_surface, 
-                    dest=(input_rect.x+5, input_rect.y+5)
-                )
+            #text_surface = base_font.render(
+            #        self.new_zone_name, 
+            #        True, 
+            #        (255, 255, 255)
+            #    )
+            #self.screen.blit(
+            #        source=text_surface, 
+            #        dest=(input_rect.x+5, input_rect.y+5)
+            #    )
+            pass
         pygame.display.update()
 
 
     async def finish(self):
+        #savezone
+        await self.navigation.save_zone(
+                map_name=self.map_name, 
+                zone_name=self.zone_name, 
+                points=self.new_zone_points.tolist(),
+                pos_unit = POSITION_UNIT.PIXELS,
+                wait=True
+            )
+        print("ZONE SAVED")
         pygame.quit()
         try:
             await self.navigation.cancel_navigation()
@@ -169,6 +191,12 @@ class RayaApplication(RayaApplicationBase):
                 '-m', '--map-name',
                 type=str,
                 help='name of the new map',
+                required=True,
+            )
+        self.zone_name = self.get_argument(
+                '-z', '--zone-name',
+                type=str,
+                help='name of the new zone',
                 required=True,
             )
 
@@ -195,19 +223,19 @@ class RayaApplication(RayaApplicationBase):
                 color=color_dark, 
                 rect=[w - 80, h - 30, 80 , 30],
             )
-        smallfont = pygame.font.SysFont(name='Corbel', size=16) 
-        text = smallfont.render(
-                'DRAW ZONE', 
-                True, 
-                color_light,
-            )
-        self.screen.blit(source=text , dest=(w - 75 , h - 20))
-        label01 = smallfont.render(
-                'Zone name = ', 
-                True, 
-                color_light,
-            )
-        self.screen.blit(source=label01 , dest=(w - 255 , h - 20))
+        #smallfont = pygame.font.SysFont(name='Corbel', size=16) 
+        #text = smallfont.render(
+        #        'DRAW ZONE', 
+        #        True, 
+        #        color_light,
+        #    )
+        #self.screen.blit(source=text , dest=(w - 75 , h - 20))
+        #label01 = smallfont.render(
+        #        'Zone name = ', 
+        #        True, 
+        #        color_light,
+        #    )
+        #self.screen.blit(source=label01 , dest=(w - 255 , h - 20))
 
 
     def show_buttons_save_cancel(self, w, h):
@@ -250,19 +278,22 @@ class RayaApplication(RayaApplicationBase):
 
 
     async def update_and_draw_zones(self):
-        self.zones = await self.navigation.get_zones(
-                map_name=self.map_name
-            )
-        for zone in self.zones:
-            color = tuple(np.random.choice(range(256), size=3))
-            random_color = (int(color[0]), int(color[1]), int(color[2]))
-            self.map_image = cv2.polylines(
-                    img=self.map_image, 
-                    pts=np.array([self.zones[zone]['zone_limits']]),
-                    isClosed=True, 
-                    color=random_color, 
-                    thickness=4,
+        try:
+            self.zones = await self.navigation.get_zones(
+                    map_name=self.map_name
                 )
+            for zone in self.zones:
+                color = tuple(np.random.choice(range(256), size=3))
+                random_color = (int(color[0]), int(color[1]), int(color[2]))
+                self.map_image = cv2.polylines(
+                        img=self.map_image, 
+                        pts=np.array([self.zones[zone]['zone_limits']]),
+                        isClosed=True, 
+                        color=random_color, 
+                        thickness=4,
+                    )
+        except RayaNavLocationsNotFound:
+            self.log.info(f'No zones in map')
 
     
     async def check_event(self, event, w, h):
