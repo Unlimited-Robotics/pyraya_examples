@@ -11,6 +11,24 @@ class RayaApplication(RayaApplicationBase):
         self.navigation: NavigationController = \
                 await self.enable_controller('navigation')
 
+        self.list_of_maps = await self.navigation.get_list_of_maps()
+        self.log.info(f'List of maps: {self.list_of_maps}')
+        self.log.info((
+                f'Setting map: {self.map_name}. '
+                'Waiting for the robot to get localized'
+            ))
+        robot_localized = await self.navigation.set_map(
+                map_name=self.map_name, 
+                wait_localization=True, 
+                timeout=3.0,
+                callback_feedback=None,
+                callback_finish=None
+            )
+
+        if not robot_localized:
+            self.log.error(f'Robot couldn\'t localize itself')
+            self.finish_app()
+        
         self.navigation_status = await self.navigation.get_status()
 
         self.log.info((
@@ -56,6 +74,12 @@ class RayaApplication(RayaApplicationBase):
 
 
     def get_arguments(self):
+        self.map_name = self.get_argument(
+                '-m', '--map-name',
+                type=str,
+                help='name of the new map',
+                required=True,
+            )
         self.location_name = self.get_argument(
                 '-l', '--location-name',
                 type=str,
