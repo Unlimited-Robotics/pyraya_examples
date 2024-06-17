@@ -10,10 +10,10 @@ from raya.controllers.navigation_controller import NavigationController
 
 
 GARY_FOOTPRINT = [
-        [-0.25,  0.35],
-        [ 0.25,  0.35],
-        [ 0.25, -0.35],
-        [-0.25, -0.35]
+        [-0.25,  0.32],
+        [ 0.25,  0.32],
+        [ 0.25, -0.32],
+        [-0.25, -0.32]
     ]
 
 GARY_AND_TRAY_FOOTPTINT = [
@@ -21,6 +21,13 @@ GARY_AND_TRAY_FOOTPTINT = [
         [ 0.60,  0.37],
         [ 0.60, -0.37],
         [-0.28, -0.37]
+    ]
+
+MINI_GARY = [
+        [-0.25,  0.28],
+        [ 0.25,  0.28],
+        [ 0.25, -0.28],
+        [-0.25, -0.28]
     ]
 
 ROBOT_RADIUS = 0.35
@@ -42,9 +49,12 @@ class RayaApplication(RayaApplicationBase):
         self.counter = 0
         self.navigation: NavigationController = \
                 await self.enable_controller('navigation')
-        #await self.navigation.update_robot_footprint(points=GARY_FOOTPRINT)
+        await self.navigation.update_robot_footprint(points=GARY_FOOTPRINT)
         self.list_of_maps = await self.navigation.get_list_of_maps()
         self.log.info(f'List of maps: {self.list_of_maps}')
+        if not self.behavior_tree:
+            self.behavior_tree = 'navigate_and_replan_if_needed'
+        self.log.info(f'Behavior tree to use: {self.behavior_tree}')
         self.log.info((
                 f'Setting map: {self.map_name}. '
                 'Waiting for the robot to get localized'
@@ -149,7 +159,8 @@ class RayaApplication(RayaApplicationBase):
                             ang_unit = ANGLE_UNIT.RADIANS,
                             callback_feedback = self.cb_nav_feedback,
                             callback_finish = self.cb_nav_finish,
-                            #options={"behavior_tree": "navigate_and_move_back"},
+                            #options={"behavior_tree": "compute_path"},
+                            options={"behavior_tree": self.behavior_tree},
                             wait=False,
                         )
                     except RayaNavInvalidGoal:
@@ -180,6 +191,12 @@ class RayaApplication(RayaApplicationBase):
                 type=str,
                 help='name of the new map',
                 required=True
+            )
+        self.behavior_tree = self.get_argument(
+                '-b', '--behavior-tree',
+                type=str,
+                help='name of the behavior tree to use',
+                required=False,    
             )
 
 
