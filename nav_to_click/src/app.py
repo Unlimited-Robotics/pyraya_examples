@@ -196,7 +196,8 @@ class RayaApplication(RayaApplicationBase):
                 '-b', '--behavior-tree',
                 type=str,
                 help='name of the behavior tree to use',
-                required=False,    
+                required=False,
+                default='navigate_and_replan_if_needed'
             )
 
 
