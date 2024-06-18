@@ -1,0 +1,5 @@
+{
+    "app-id": "nav_change_costmap",
+    "app-description": "Example that changes the current costmap for the selected."
+
+}
