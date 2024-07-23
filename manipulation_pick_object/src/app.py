@@ -53,7 +53,7 @@ class RayaApplication(RayaApplicationBase):
         self.arms = self.get_argument(
                '-a', '--arms',
                type=list, 
-               default=[],
+               default=["right_arm"],
                nargs='+', 
                help='list of arms to try to pick'
             )
