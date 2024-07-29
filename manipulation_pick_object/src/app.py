@@ -18,6 +18,7 @@ class RayaApplication(RayaApplicationBase):
                 method=self.method,
                 pressure=self.pressure,
                 timeout=self.timeout,
+                additional_options={'planner':self.planner},
                 callback_feedback=self.cb_manipulation_feedback,
                 wait=True,
             )
@@ -56,6 +57,12 @@ class RayaApplication(RayaApplicationBase):
                default=["right_arm"],
                nargs='+', 
                help='list of arms to try to pick'
+            )
+        self.planner = self.get_argument(
+                '-p', '--planner',
+                type=str, 
+                default='', 
+                help='planner to use by the arms'
             )
         self.method = self.get_argument(
                 '-md', '--method',
