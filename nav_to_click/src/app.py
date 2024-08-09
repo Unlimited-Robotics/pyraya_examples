@@ -123,7 +123,7 @@ class RayaApplication(RayaApplicationBase):
             )
         img = self.draw(robot_position)
         cv2.imshow('map', img)
-        key = cv2.waitKey(20) & 0xFF
+        key = cv2.waitKey(2) & 0xFF
         if key == 27:
             self.finish_app()
         if key == ord('C') or key == ord('c'):
@@ -135,7 +135,14 @@ class RayaApplication(RayaApplicationBase):
                     self.log.error('No navigation in execution...')
         if self.new_goal_flag:
             if self.navigation.is_navigating():
-                self.log.warn('Cancel current goal before send a new one.')
+                self.log.warn('Trying to update nav goal.')
+                await self.navigation.update_current_nav_goal(
+                    x=float(self.new_goal[0]), 
+                    y=float(self.new_goal[1]), 
+                    angle=self.new_goal[2], 
+                    pos_unit = POSITION_UNIT.PIXELS, 
+                    ang_unit = ANGLE_UNIT.RADIANS,
+                )
                 self.new_goal_flag = False
             else:
                 self.log.warn(f'New goal received {self.new_goal}')
@@ -155,7 +162,8 @@ class RayaApplication(RayaApplicationBase):
                             # x=0.0, y=1.0, angle=90.0, pos_unit = POSITION_UNIT.METERS, 
                             x=float(self.new_goal[0]), 
                             y=float(self.new_goal[1]), 
-                            angle=self.new_goal[2], pos_unit = POSITION_UNIT.PIXELS, 
+                            angle=self.new_goal[2], 
+                            pos_unit = POSITION_UNIT.PIXELS, 
                             ang_unit = ANGLE_UNIT.RADIANS,
                             callback_feedback = self.cb_nav_feedback,
                             callback_finish = self.cb_nav_finish,
@@ -211,23 +219,19 @@ class RayaApplication(RayaApplicationBase):
             self.finish_app()
 
 
-    def cb_nav_finish(self, error, error_msg):
-        if error==0:
+    def cb_nav_finish(self, code, msg):
+        if code==0:
             self.background_color = COLOR_DONE
             self.background_counter = 0
-            self.log.info(f'Navigation Finish: {error} {error_msg}')
+            self.log.info(f'Success   [{code}]: {msg}')
         else:
             self.background_color = COLOR_ERROR
             self.background_counter = 0
-            self.log.info(f'Navigation Error: {error} {error_msg}')
+            self.log.info(f'Error     [{code}]: {msg}')
 
 
-    def cb_nav_feedback(self, error, error_msg, distance_to_goal, speed):
-        self.log.info((
-                'Navigation Feedback: \n'
-                f'error = {error} \n error_msg={error_msg} \n' 
-                f'distance_to_goal = {distance_to_goal}, speed = {speed}'
-            ))
+    def cb_nav_feedback(self, code, msg, distance_to_goal, speed):
+        self.log.info(    f'Feedback: [{code}]: {msg}')
 
 
     async def print_position(self):
