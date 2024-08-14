@@ -1,0 +1,19 @@
+{
+    "name": "",
+    "description": "",
+    "type": "",
+    "version" : "1.0.0",
+    "dependencies" : {
+        "pip": [],
+        "skills": []
+    },
+    "repository": {
+        "type": "git",
+        "url": ""
+    },
+    "license": "MIT",
+    "author": {
+        "name": "",
+        "url": ""
+    }
+}

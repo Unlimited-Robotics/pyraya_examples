@@ -1,0 +1,17 @@
+{
+    "app-id": "teleop_app",
+    "app-name": "teleop_app",
+    "app-description": "teleop_app",
+    "verbose-error-print": true,
+    "simulation": true,
+    "dev-mode": true,
+    "robot-connection": {
+        "robot-id": "",
+        "ip-address": "",
+        "dds-channel": 0
+    },
+    "logging": {
+        "file_enabled": true,
+        "folder": "log"
+    }
+}
