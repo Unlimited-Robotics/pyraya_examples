@@ -1,7 +1,7 @@
 {
-    "app-id": "teleop_app",
-    "app-name": "teleop_app",
-    "app-description": "teleop_app",
+    "app-id": "teleop",
+    "app-name": "teleop",
+    "app-description": "teleop",
     "verbose-error-print": true,
     "simulation": true,
     "dev-mode": true,
