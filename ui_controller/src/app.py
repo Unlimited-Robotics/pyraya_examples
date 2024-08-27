@@ -1,3 +1,5 @@
+import os
+
 from raya.application_base import RayaApplicationBase
 from raya.enumerations import UI_MODAL_TYPE, UI_THEME_TYPE
 from raya.controllers.ui_controller import UIController
@@ -7,6 +9,8 @@ class RayaApplication(RayaApplicationBase):
 
     async def setup(self):
         self.UI: UIController = await self.enable_controller('ui')
+
+        self.log.warn(f'MY PID: {os.getpid()}')
 
 
     async def loop(self):
