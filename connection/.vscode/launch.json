@@ -2,6 +2,18 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "RayaSDK: Launch App",
+            "type": "RayaSDK",
+            "request": "launch",
+            "typeCommand": "launchApp",
+            "debug": false,
+            "terminalName": "Connection",
+            "showTerminal": true,
+            "args": [
+              "-d 10"
+            ]
+        },
+        {
             "name": "pyRa-Ya: debug application",
             "type": "python",
             "request": "attach",
