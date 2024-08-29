@@ -2,17 +2,38 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "RayaSDK: Launch App",
+            "type": "RayaSDK",
+            "request": "launch",
+            "typeCommand": "launchApp",
+            "debug": false,
+            "terminalName": "RayaSDK App",
+            "showTerminal": true,
+            "args": []
+        },
+        {
             "name": "pyRa-Ya: debug application",
             "type": "python",
             "request": "attach",
             "port": 5678,
             "host": "localhost",
             "pathMappings": [
-              {
-                "localRoot": "${workspaceFolder}",
-                "remoteRoot": "."
-              }
+                {
+                    "localRoot": "${workspaceFolder}",
+                    "remoteRoot": "."
+                }
             ]
-          }
+        },
+        {
+            "name": "Run ui_controller",
+            "type": "RayaSDK",
+            "request": "launch",
+            "debug": false,
+            "args": [
+                "",
+                "a"
+            ],
+            "typeCommand": "launchApp"
+        }
     ]
 }
