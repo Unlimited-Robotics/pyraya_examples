@@ -7,3 +7,6 @@ from .input_modal import InputModalComponent
 from .interactive_map import InteractiveMapComponent
 from .interacty import InteractyComponent
 from .keyboard import KeyboardComponent
+from .modal import ModalComponent
+from .open_link import OpenLinkComponent
+from .open_video import OpenVideoComponent

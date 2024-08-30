@@ -8,7 +8,8 @@ from .components import AnimationComponent, CallToActionComponent
 from .components import ChoiceComponent, ConferenceComponent
 from .components import DisplayScreenComponent, InputModalComponent
 from .components import InteractiveMapComponent, InteractyComponent
-from .components import KeyboardComponent
+from .components import KeyboardComponent, ModalComponent
+from .components import OpenLinkComponent, OpenVideoComponent
 from .constants import UI_COMMON_OPTIONS
 
 class RayaApplication(RayaApplicationBase):
@@ -58,6 +59,18 @@ class RayaApplication(RayaApplicationBase):
             app=self, 
             data_selector=self.data
         )
+        self.modal = ModalComponent(
+            app=self, 
+            data_selector=self.data
+        )
+        self.open_link = OpenLinkComponent(
+            app=self, 
+            data_selector=self.data
+        )
+        self.open_video = OpenVideoComponent(
+            app=self, 
+            data_selector=self.data
+        )
         
         self.actions = {
             self.animation.select_button['id']: self.animation,
@@ -69,6 +82,9 @@ class RayaApplication(RayaApplicationBase):
             self.interactive_map.select_button['id']: self.interactive_map,
             self.interacty.select_button['id']: self.interacty,
             self.keyboard.select_button['id']: self.keyboard,
+            self.modal.select_button['id']: self.modal,
+            self.open_link.select_button['id']: self.open_link,
+            self.open_video.select_button['id']: self.open_video,
         }
         self.main_ui_options = copy.deepcopy(UI_COMMON_OPTIONS)
         self.main_ui_options['back_button_text'] = ''
