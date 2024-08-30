@@ -1,3 +1,5 @@
+import copy
+
 from raya.application_base import RayaApplicationBase
 from raya.controllers.ui_controller import UIController
 
@@ -68,15 +70,18 @@ class RayaApplication(RayaApplicationBase):
             self.interacty.select_button['id']: self.interacty,
             self.keyboard.select_button['id']: self.keyboard,
         }
+        self.main_ui_options = copy.deepcopy(UI_COMMON_OPTIONS)
+        self.main_ui_options['back_button_text'] = ''
 
 
     async def loop(self):
+        
         response = await self.ui.display_choice_selector(
             title='Main Menu',
             data=self.data,
             max_items_shown=4,
-            **UI_COMMON_OPTIONS,
-            wait=True
+            wait=True,
+            **self.main_ui_options
         )
         self.log.debug(f'Selected: {response}')
         if 'selected_option' not in response or response['selected_option'] is None:

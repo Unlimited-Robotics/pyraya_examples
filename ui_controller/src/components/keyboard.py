@@ -49,7 +49,7 @@ class KeyboardComponent:
                 )
                 if response['action'] == 'confirmed':
                     self.__keyboard_input_flag = False
-                    await self.app.ui.show_last_animation()
+                    return
             await self.app.sleep(1)
 
     
